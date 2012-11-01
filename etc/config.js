@@ -1,2 +1,9 @@
-// ds041347.mongolab.com:41347/heroku_app8902478
-
+module.exports = {
+  mongo:{
+    dbName:'lulzserver',
+    port:41347,
+    host:'ds041347.mongolab.com',
+    user:'cloudezero',
+    password:'pancakes'
+  }
+};
