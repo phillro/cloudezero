@@ -2,7 +2,7 @@
   "name":"cloudezero",
   "version":"0.0.1",
   "engines":{
-    "node":"0.8.14",
+    "node":"0.8.12",
     "npm":"1.1.65"
   },
   "private":true,
