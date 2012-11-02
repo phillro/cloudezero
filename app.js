@@ -11,6 +11,7 @@ var conf = require('./etc/config.js'),
 
 var app = express();
 
+// configure app
 app.configure(configureExpress);
 
 function configureExpress() {
@@ -40,32 +41,18 @@ function configureExpress() {
   app.use(express.static(path.join(__dirname, 'public')));
 }
 
-function checkAuth(req, res, next) {
-  if (!req.session.user_id) {
-    res.redirect('/access_denied');
-  } else {
-    next();
-  }
-}
-
-app.post('/login', function (req, res) {
-  var post = req.body;
-  if (post.user == 'john' && post.password == 'johnspassword') {
-    req.session.user_id = 4;
-    res.redirect('/');
-  } else {
-    res.redirect('/access_denied');
-  }
-});
+// define routes
+// default index page
+app.get('/', auth.checkAuth, routes.index);
 
 // authentication related routes
-app.get('/access_denied', auth.access_denied);
-app.get('/', checkAuth, routes.index);
-
+app.get('/login', auth.showLoginPage);
+app.post('/login', auth.login);
 
 // user-related routes
-app.get('/user/:nickname', user.get);
+app.get('/user/:nickname', auth.checkAuth, user.get);
 
+// start server
 http.createServer(app).listen(app.get('port'), function () {
   console.log("Express server listening on port " + app.get('port'));
 });
