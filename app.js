@@ -47,6 +47,7 @@ app.get('/', auth.checkAuth, routes.index);
 
 // authentication related routes
 app.get('/login', auth.showLoginPage);
+app.get('/logout', auth.logout);
 app.post('/login', auth.login);
 
 // user-related routes

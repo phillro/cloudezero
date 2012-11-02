@@ -18,6 +18,7 @@ exports.login = function (req, res) {
   models.user.findOne({nickname:post.user}, function (err, doc) {
     if (doc) {
       if (doc.authenticate(post.password)) {
+        req.session.user_id = doc.id;
         res.redirect('/');
       } else {
         res.send("Bad password.");
@@ -28,8 +29,16 @@ exports.login = function (req, res) {
   });
 };
 
-exports.logout = function(req,res){
-  
+/**
+ * Wipes out the session and returns user to the login
+ * page.
+ *
+ * @param req
+ * @param res
+ */
+exports.logout = function (req, res) {
+  delete req.session.user_id;
+  res.redirect('/login');
 }
 
 /**
