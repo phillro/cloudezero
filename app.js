@@ -6,6 +6,7 @@ var conf = require('./etc/config.js'),
     redisStore = require('connect-redis')(express),
     routes = require('./routes'),
     url = require('url'),
+    auth = require('./routes/auth'),
     user = require('./routes/user');
 
 var app = express();
@@ -41,7 +42,7 @@ function configureExpress() {
 
 function checkAuth(req, res, next) {
   if (!req.session.user_id) {
-    res.send('You are not authorized to view this page');
+    res.redirect('/access_denied');
   } else {
     next();
   }
@@ -53,11 +54,14 @@ app.post('/login', function (req, res) {
     req.session.user_id = 4;
     res.redirect('/');
   } else {
-    res.send('Bad user/pass');
+    res.redirect('/access_denied');
   }
 });
 
+// authentication related routes
+app.get('/access_denied', auth.access_denied);
 app.get('/', checkAuth, routes.index);
+
 
 // user-related routes
 app.get('/user/:nickname', user.get);
