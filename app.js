@@ -1,6 +1,7 @@
 var conf = require('./etc/config.js'),
     express = require('express'),
     http = require('http'),
+    partials = require('express-partials'),
     path = require('path'),
     redis = require('redis'),
     redisStore = require('connect-redis')(express),
@@ -37,6 +38,7 @@ function configureExpress() {
   app.use(express.favicon());
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+  app.use(partials());
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
 }

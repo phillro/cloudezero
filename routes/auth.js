@@ -1,7 +1,7 @@
 var models = require('../models');
 
 exports.showLoginPage = function (req, res) {
-  res.render('login');
+  res.render('login', {layout:false});
 };
 
 /**
