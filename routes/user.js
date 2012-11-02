@@ -1,8 +1,15 @@
+var models = require('../models');
 
-/*
- * GET users listing.
- */
-
-exports.list = function(req, res){
-  res.send("respond with a resource");
+exports.get = function (req, res) {
+  models.user.findOne({'nickname':req.params.nickname}, function (err, doc) {
+    if (!err) {
+      res.send(doc);
+    } else {
+      handleError(res, err);
+    }
+  });
 };
+
+function handleError(response, error) {
+  response.send(error);
+}
