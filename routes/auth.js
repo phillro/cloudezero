@@ -28,6 +28,10 @@ exports.login = function (req, res) {
   });
 };
 
+exports.logout = function(req,res){
+  
+}
+
 /**
  * Middleware method to check authentication.  On
  * fail send access_denied page and pass through
