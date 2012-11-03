@@ -5,9 +5,9 @@ var assert = require('assert'),
 describe('Auth', function () {
   describe('#addInvite', function () {
     it('should not allow duplicate invites', function (done) {
-      // set up mocks
+      // mock a response with no err and one doc
       models.invite.findOne = function (value, callback) {
-        callback("", {});
+        callback(null, {});
       };
 
       auth.createInvite('test@test.com', 0, function (status, errMsg) {
