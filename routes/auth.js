@@ -1,6 +1,11 @@
 var models = require('../models'),
     email = require("emailjs");
 
+/**
+ * Set up email service for sending invites
+ *
+ * TODO : pull these values out to config.js
+ */
 var server = email.server.connect({
   user:"bronsteinomatic@gmail.com",
   password:"cloude000",
@@ -8,6 +13,12 @@ var server = email.server.connect({
   ssl:true
 });
 
+/**
+ * Renders login.ejs
+ *
+ * @param req
+ * @param res
+ */
 exports.showLoginPage = function (req, res) {
   res.render('login', {layout:false});
 };
@@ -68,20 +79,16 @@ exports.checkAuth = function (req, res, next) {
   }
 };
 
-exports.checkCanInvite = function (req, res, next) {
-  models.user.findById(req.session.user_id, function (err, doc) {
-    if (doc.can_invite) {
-      next();
-    } else {
-      res.send("You don't have invite privileges.");
-    }
-  });
-};
-
-exports.invite = function (req, res) {
-  res.render("invite");
-};
-
+/**
+ * POST method that attempts to send an invite to someone.
+ *
+ * If an Invite has already been created, or the email address
+ * already matches a registered User - we don't send another...
+ * all these cases should return responses that indicate this.
+ *
+ * @param req
+ * @param res
+ */
 exports.sendInvite = function (req, res) {
   var post = req.body;
 
@@ -96,6 +103,35 @@ exports.sendInvite = function (req, res) {
   });
 };
 
+/**
+ * Attempts to create a new invite.  If there's already an invite
+ * to this email address or this email address already belongs to
+ * a registered user we return false and a reason.
+ *
+ * @param emailAddress The email address of the person being invited
+ * @param inviterId The User._id of the inviter
+ * @param callback Returns true/false and sets a string on false with
+ *                 the reason why we didn't create an invite.
+ */
+exports.createInvite = function (emailAddress, inviterId, callback) {
+  // first check if there's already a pending invite
+  models.invite.findOne({email:emailAddress}, function (err, doc) {
+    if (doc) {
+     callback(false, emailAddress + " has already been invited.");
+    } else {
+      callback(true, "");
+    }
+  });
+};
+
+/**
+ * Uses the emailjs server (initialized above) to send an email.
+ *
+ * @param emailAddress
+ * @param subject
+ * @param body
+ * @param res
+ */
 function sendEmail(emailAddress, subject, body, res) {
   server.send({
     from:"cloudezero <bronsteinomatic@gmail.com>",
@@ -103,12 +139,10 @@ function sendEmail(emailAddress, subject, body, res) {
     subject:subject,
     text:body
   }, function (err, message) {
-    if(err){
+    if (err) {
       res.send("ERROR YOU SUCK AT THIS");
-    }else{
+    } else {
       res.send("Success!");
     }
   });
 }
-
-

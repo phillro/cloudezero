@@ -16,6 +16,7 @@
     "express":"3.0.0",
     "express-partials":"0.0.6",
     "ejs":"*",
+    "mocha":"1.6.0",
     "mongoose":"3.3.1"
   }
 }
