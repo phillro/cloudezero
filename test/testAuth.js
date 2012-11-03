@@ -35,20 +35,24 @@ describe('Auth', function () {
     })
 
     it('should correctly create an invite', function (done) {
-          // mock no invites and no users for this email
-          models.invite.findOne = function (value, callback) {
-            callback(null, null);
-          };
+      // mock no invites and no users for this email
+      models.invite.findOne = function (value, callback) {
+        callback(null, null);
+      };
 
-          models.user.findOne = function (value, callback) {
-            callback(null, null);
-          };
+      models.user.findOne = function (value, callback) {
+        callback(null, null);
+      };
 
-          auth.createInvite('test@test.com', 0, function (status, errMsg) {
-            assert.equal(true, status);
-            // TODO fill in 
-            done();
-          });
-        })
+      models.invite.save = function(value, callback) {
+        console.log(value);
+        callback(null, {});
+      };
+
+      auth.createInvite('test@test.com', 0, function (status, errMsg) {
+        assert.equal(true, status);
+        done();
+      });
+    })
   })
 })

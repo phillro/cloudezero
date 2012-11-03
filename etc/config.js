@@ -9,10 +9,12 @@ module.exports = {
   redis:{
     url:'redis://redistogo:e178a863c9c44954821e7bb50c317c2b@grouper.redistogo.com:9135/'
   },
-  emailjs:{
-    user:"bronsteinomatic@gmail.com",
-    password:"cloude000",
-    host:"smtp.gmail.com",
-    ssl:true
+  email:{
+    server:{
+      user:'bronsteinomatic@gmail.com',
+      password:'cloude000',
+      host:'smtp.gmail.com',
+      ssl:true},
+    from:'cloudezero <bronsteinomatic@gmail.com>'
   }
 };

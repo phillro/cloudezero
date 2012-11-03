@@ -45,9 +45,7 @@
             });
 
             $('#submitInvite').click(function () {
-                $("#spinner").src('/images/ajax-loader.gif');
                 $.post('send_invite', {email:$('#emailAddressToInvite').val()}, function (data) {
-                    $("#spinnder").src('');
                     $('#inviteStatus').html(data);
                 });
             });
@@ -100,7 +98,6 @@
         <input type="text" id="emailAddressToInvite" placeholder="bronstein@aol.com"/>
         <input type="button" id="submitInvite" value="send"/>
     </p>
-    <img id="spinner"/>
 
     <p id="inviteStatus"></p>
     <a class="close-reveal-modal">&#215;</a>
