@@ -117,9 +117,16 @@ exports.createInvite = function (emailAddress, inviterId, callback) {
   // first check if there's already a pending invite
   models.invite.findOne({email:emailAddress}, function (err, doc) {
     if (doc) {
-     callback(false, emailAddress + " has already been invited.");
+      callback(false, emailAddress + " has already been invited.");
     } else {
-      callback(true, "");
+      models.user.findOne({email:emailAddress}, function (err, doc) {
+        if (doc) {
+          callback(false, emailAddress + " is already a user.");
+        } else {
+          callback(true, "HOLY FUCK");
+          // TODO actually create invite
+        }
+      });
     }
   });
 };
