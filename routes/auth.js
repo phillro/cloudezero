@@ -1,4 +1,12 @@
-var models = require('../models');
+var models = require('../models'),
+    email = require("emailjs");
+
+var server = email.server.connect({
+  user:"bronsteinomatic@gmail.com",
+  password:"cloude000",
+  host:"smtp.gmail.com",
+  ssl:true
+});
 
 exports.showLoginPage = function (req, res) {
   res.render('login', {layout:false});
@@ -59,5 +67,48 @@ exports.checkAuth = function (req, res, next) {
     next();
   }
 };
+
+exports.checkCanInvite = function (req, res, next) {
+  models.user.findById(req.session.user_id, function (err, doc) {
+    if (doc.can_invite) {
+      next();
+    } else {
+      res.send("You don't have invite privileges.");
+    }
+  });
+};
+
+exports.invite = function (req, res) {
+  res.render("invite");
+};
+
+exports.sendInvite = function (req, res) {
+  var post = req.body;
+
+  models.user.findById(req.session.user_id, function (err, doc) {
+    if (doc.can_invite) {
+      console.log("User " + doc.nickname + " is sending invite to " + post.email);
+      sendEmail(post.email, doc.nickname + " is inviting you to lulzserver", "hey there", res);
+
+    } else {
+      res.send("You can't send invites.");
+    }
+  });
+};
+
+function sendEmail(emailAddress, subject, body, res) {
+  server.send({
+    from:"cloudezero <bronsteinomatic@gmail.com>",
+    to:emailAddress,
+    subject:subject,
+    text:body
+  }, function (err, message) {
+    if(err){
+      res.send("ERROR YOU SUCK AT THIS");
+    }else{
+      res.send("Success!");
+    }
+  });
+}
 
 

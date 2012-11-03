@@ -8,7 +8,7 @@ var conf = require('./etc/config.js'),
     routes = require('./routes'),
     url = require('url'),
     auth = require('./routes/auth'),
-    user = require('./routes/user');
+    userRoutes = require('./routes/user');
 
 var app = express();
 
@@ -51,9 +51,11 @@ app.get('/', auth.checkAuth, routes.index);
 app.get('/login', auth.showLoginPage);
 app.get('/logout', auth.logout);
 app.post('/login', auth.login);
+app.post('/send_invite', auth.sendInvite);
 
 // user-related routes
-app.get('/user/:nickname', auth.checkAuth, user.get);
+app.get('/user/get/:id', auth.checkAuth, userRoutes.get);
+app.get('/user/current', auth.checkAuth, userRoutes.getCurrentUser);
 
 // start server
 http.createServer(app).listen(app.get('port'), function () {
