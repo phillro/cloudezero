@@ -5,7 +5,7 @@ var assert = require('assert'),
 describe('Auth', function () {
   describe('#addInvite', function () {
     it('should not allow duplicate invites', function (done) {
-      // mock a response with no err and one doc
+      // mock an existing invite
       models.invite.findOne = function (value, callback) {
         callback(null, {});
       };
@@ -18,7 +18,7 @@ describe('Auth', function () {
     })
 
     it('should not invite people who are already members', function (done) {
-      // mock a response with no err and no docs, and a user that already exists
+      // mock no invites but an existing user
       models.invite.findOne = function (value, callback) {
         callback(null, null);
       };
@@ -33,5 +33,22 @@ describe('Auth', function () {
         done();
       });
     })
+
+    it('should correctly create an invite', function (done) {
+          // mock no invites and no users for this email
+          models.invite.findOne = function (value, callback) {
+            callback(null, null);
+          };
+
+          models.user.findOne = function (value, callback) {
+            callback(null, null);
+          };
+
+          auth.createInvite('test@test.com', 0, function (status, errMsg) {
+            assert.equal(true, status);
+            // TODO fill in 
+            done();
+          });
+        })
   })
 })

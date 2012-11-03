@@ -1,17 +1,11 @@
-var models = require('../models'),
-    email = require("emailjs");
+var conf = require('../etc/config'),
+    email = require('emailjs'),
+    models = require('../models');
 
 /**
- * Set up email service for sending invites
- *
- * TODO : pull these values out to config.js
+ * Email server for sending invites
  */
-var server = email.server.connect({
-  user:"bronsteinomatic@gmail.com",
-  password:"cloude000",
-  host:"smtp.gmail.com",
-  ssl:true
-});
+var emailServer = email.server.connect(conf.emailjs);
 
 /**
  * Renders login.ejs
@@ -95,8 +89,7 @@ exports.sendInvite = function (req, res) {
   models.user.findById(req.session.user_id, function (err, doc) {
     if (doc.can_invite) {
       console.log("User " + doc.nickname + " is sending invite to " + post.email);
-      sendEmail(post.email, doc.nickname + " is inviting you to lulzserver", "hey there", res);
-
+      // TODO : stuff!
     } else {
       res.send("You can't send invites.");
     }
@@ -123,8 +116,13 @@ exports.createInvite = function (emailAddress, inviterId, callback) {
         if (doc) {
           callback(false, emailAddress + " is already a user.");
         } else {
-          callback(true, "HOLY FUCK");
-          // TODO actually create invite
+          var invite = new models.invite;
+
+          invite.email = emailAddress;
+          invite.invited_by = inviterId;
+          invite.save();
+
+          callback(true, "Invite created for " + emailAddress + ", invite id=" + invite.id);
         }
       });
     }
@@ -140,15 +138,17 @@ exports.createInvite = function (emailAddress, inviterId, callback) {
  * @param res
  */
 function sendEmail(emailAddress, subject, body, res) {
-  server.send({
+  emailServer.send({
     from:"cloudezero <bronsteinomatic@gmail.com>",
     to:emailAddress,
     subject:subject,
     text:body
   }, function (err, message) {
     if (err) {
+      console.log(err);
       res.send("ERROR YOU SUCK AT THIS");
     } else {
+      console.log(message);
       res.send("Success!");
     }
   });
