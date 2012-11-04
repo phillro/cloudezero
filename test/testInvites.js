@@ -1,5 +1,5 @@
 var assert = require('assert'),
-    auth = require('../routes/auth'),
+    invites = require('../lib/invites'),
     models = require('../models');
 
 describe('Auth', function () {
@@ -10,7 +10,7 @@ describe('Auth', function () {
         callback(null, {});
       };
 
-      auth.createInvite('test@test.com', 0, function (status, errMsg) {
+      invites.createInvite('test@test.com', 0, function (status, errMsg) {
         assert.equal(false, status);
         assert.equal(errMsg, "test@test.com has already been invited.");
         done();
@@ -27,7 +27,7 @@ describe('Auth', function () {
         callback(null, {});
       };
 
-      auth.createInvite('test@test.com', 0, function (status, errMsg) {
+      invites.createInvite('test@test.com', 0, function (status, errMsg) {
         assert.equal(false, status);
         assert.equal(errMsg, "test@test.com is already a user.");
         done();
@@ -44,12 +44,12 @@ describe('Auth', function () {
         callback(null, null);
       };
 
-      models.invite.save = function(value, callback) {
+      models.invite.save = function (value, callback) {
         console.log(value);
         callback(null, {});
       };
 
-      auth.createInvite('test@test.com', 0, function (status, errMsg) {
+      invites.createInvite('test@test.com', 0, function (status, errMsg) {
         assert.equal(true, status);
         done();
       });
