@@ -52,6 +52,8 @@ app.get('/login', auth.showLoginPage);
 app.get('/logout', auth.logout);
 app.post('/login', auth.login);
 app.post('/send_invite', auth.sendInvite);
+app.get('/invited/:invite_id', auth.showRegister);
+app.post('/register', auth.register);
 
 // user-related routes
 app.get('/user/get/:id', auth.checkAuth, userRoutes.get);

@@ -1,0 +1,15 @@
+<html>
+<head>
+    <title><%=email%> registration</title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+</head>
+<body>
+<form id="login-form" action="/register" method="post">
+    <input type="hidden" name="email" value="<%=email%>"/>
+    <input type="hidden" name="inviteId" value="<%=inviteId%>"/>
+    <input type="text" id="nickname" name="nickname" placeholder="nickname"/>
+    <input type="password" id="password" name="password" placeholder="password"/>
+    <input id="submit" type="submit" value="REGISTER"/>
+</form>
+</body>
+</html>
