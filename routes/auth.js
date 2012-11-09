@@ -36,14 +36,14 @@ exports.login = function (req, res) {
     });
 };
 
-exports.extensionLogin = function(req,res){
+exports.extensionLogin = function (req, res) {
     var post = req.body;
 
     models.user.findOne({nickname:post.user}, function (err, doc) {
         if (doc) {
             if (doc.authenticate(post.password)) {
                 req.session.user_id = doc.id;
-                res.send("Authentication successful.");
+                res.send("Logged in.");
             } else {
                 res.send("Bad password.");
             }
@@ -74,7 +74,7 @@ exports.logout = function (req, res) {
  */
 exports.extensionLogout = function (req, res) {
     delete req.session.user_id;
-    res.send('Success.');
+    res.send('Logged out.');
 }
 
 /**
