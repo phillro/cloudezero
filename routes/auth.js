@@ -43,7 +43,7 @@ exports.extensionLogin = function(req,res){
         if (doc) {
             if (doc.authenticate(post.password)) {
                 req.session.user_id = doc.id;
-                res.redirect("Authentication successful.");
+                res.send("Authentication successful.");
             } else {
                 res.send("Bad password.");
             }
