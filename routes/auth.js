@@ -36,6 +36,23 @@ exports.login = function (req, res) {
     });
 };
 
+exports.extensionLogin = function(req,res){
+    var post = req.body;
+
+    models.user.findOne({nickname:post.user}, function (err, doc) {
+        if (doc) {
+            if (doc.authenticate(post.password)) {
+                req.session.user_id = doc.id;
+                res.redirect("Authentication successful.");
+            } else {
+                res.send("Bad password.");
+            }
+        } else {
+            res.send("User not found.");
+        }
+    });
+};
+
 /**
  * Wipes out the session and returns user to the login
  * page.
@@ -46,6 +63,18 @@ exports.login = function (req, res) {
 exports.logout = function (req, res) {
     delete req.session.user_id;
     res.redirect('/login');
+}
+
+/**
+ * Wipes out the session and returns user to the login
+ * page.
+ *
+ * @param req
+ * @param res
+ */
+exports.extensionLogout = function (req, res) {
+    delete req.session.user_id;
+    res.send('Success.');
 }
 
 /**
