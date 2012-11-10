@@ -8,8 +8,7 @@ var conf = require('./etc/config.js'),
     routes = require('./routes'),
     url = require('url'),
     auth = require('./routes/auth'),
-    userRoutes = require('./routes/user'),
-    winston = require('winston');
+    userRoutes = require('./routes/user');
 
 var app = express();
 
@@ -58,11 +57,14 @@ app.post('/send_invite', auth.sendInvite);
 app.get('/invited/:invite_id', auth.showRegister);
 app.post('/register', auth.register);
 
+// posting related routes
+app.post('/posting/add', auth.checkAuth, post.addPosting);
+
 // user-related routes
 app.get('/user/get/:id', auth.checkAuth, userRoutes.get);
 app.get('/user/current', auth.checkAuth, userRoutes.getCurrentUser);
 
 // start server
 http.createServer(app).listen(app.get('port'), function () {
-  winston.info("Cloudezero server listening on port " + app.get('port'));
+  console.log("Cloudezero server listening on port " + app.get('port'));
 });
