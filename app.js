@@ -8,6 +8,7 @@ var conf = require('./etc/config.js'),
     routes = require('./routes'),
     url = require('url'),
     auth = require('./routes/auth'),
+    postingRoutes = require('./routes/posting'),
     userRoutes = require('./routes/user');
 
 var app = express();
@@ -58,7 +59,7 @@ app.get('/invited/:invite_id', auth.showRegister);
 app.post('/register', auth.register);
 
 // posting related routes
-app.post('/posting/add', auth.checkAuth, post.addPosting);
+app.post('/posting/add', auth.checkAuth, postingRoutes.addPosting);
 
 // user-related routes
 app.get('/user/get/:id', auth.checkAuth, userRoutes.get);
