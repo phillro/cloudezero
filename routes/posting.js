@@ -5,7 +5,7 @@ exports.addPosting = function (req, res) {
 
   models.user.findById(req.session.user_id, function (err, user) {
     // check for repost before adding
-    models.posting.count({'imageUrl':imageUrl}, function (err, cnt) {
+    models.posting.count({'imageUrl':post.imageUrl}, function (err, cnt) {
       if (cnt === 0) {
         var newPost = new models.posting;
 
