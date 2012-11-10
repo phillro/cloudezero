@@ -8,7 +8,8 @@ var conf = require('./etc/config.js'),
     routes = require('./routes'),
     url = require('url'),
     auth = require('./routes/auth'),
-    userRoutes = require('./routes/user');
+    userRoutes = require('./routes/user'),
+    winston = require('winston');
 
 var app = express();
 

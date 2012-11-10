@@ -1,5 +1,3 @@
-var winston = require('winston');
-
 module.exports = {
     mongo:{
         dbName:'heroku_app8902478',
