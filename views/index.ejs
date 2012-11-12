@@ -1,1 +1,62 @@
-<h1>TEH LULZ ARE COMING</h1>
+<!-- templates -->
+<script id='posting-template' type='text/x-handlebars-template'>
+    <div id={{id}} class='posting'>
+        <table>
+            <tr>
+                <td>
+                    <img src={{imageUrl}}>
+                </td>
+                <td valign="top">
+                    <table>
+                        <tr>
+                            <td><a href="#" onclick="return showUser('{{posterId}}');">{{posterName}}</a></td>
+                            <td>[<span class="postingLabel">{{date}}</span>]</td>
+                            <td>
+                                <a href="#" class="plusButton"></a>
+                                <a href="#" class="minusButton"></a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <br>
+    </div>
+</script>
+
+<script type="text/javascript">
+    var postingSource = $('#posting-template').html();
+    var postingTemplate = Handlebars.compile(postingSource);
+
+    var mostRecentPostId = 0;
+    var latestPostId = 0;
+
+    $(document).ready(function () {
+        $.get('/posting/getLatestPostings', function (docs) {
+            for (var i = 0; i < docs.length; i++) {
+                addNewPost(docs[i]);
+            }
+        });
+    });
+
+    function addNewPost(post) {
+        var newPost = postingTemplate({
+            id:post._id,
+            posterName:post.nickname,
+            posterId:post.userId,
+            date:$.format.date(new Date(post.createdAt), 'MM/dd h:mma'),
+            imageUrl:post.imageUrl
+        });
+
+        if (latestPostId === 0) {
+            latestPostId = post._id;
+        }
+
+        mostRecentPostId === 0 ? $('#postings').html(newPost) : $('#' + mostRecentPostId).before(newPost);
+        mostRecentPostId = post._id;
+    }
+</script>
+
+<div id="postings">
+
+</div>

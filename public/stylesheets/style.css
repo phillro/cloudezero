@@ -9,6 +9,34 @@ a {
   color: #00B7FF;
 }
 
+.posting {
+  padding: 10px;
+  border-width: 1px;
+  border-bottom-style: dashed;
+}
+
+.plusButton {
+  width: 32px;
+  height: 32px;
+  display: block;
+  background: transparent url('../images/plus.png') center top no-repeat;
+}
+
+.plusButton:hover {
+  background: url('../images/plus_hover.png');
+}
+
+.minusButton {
+  width: 32px;
+  height: 32px;
+  display: block;
+  background: transparent url('../images/minus.png') center top no-repeat;
+}
+
+.minusButton:hover {
+  background: url('../images/minus_hover.png');
+}
+
 #login-form {
   width: 220px;
   height: 155px;

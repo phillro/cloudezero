@@ -30,3 +30,9 @@ exports.addPosting = function (req, res) {
     });
   });
 };
+
+exports.getPostings = function (req, res) {
+  models.posting.find().sort('createdAt').limit(25).exec(function (err, docs) {
+    res.send(docs);
+  });
+};

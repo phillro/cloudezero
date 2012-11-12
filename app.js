@@ -60,6 +60,7 @@ app.post('/register', auth.register);
 
 // posting related routes
 app.post('/posting/add', auth.checkAuth, postingRoutes.addPosting);
+app.get('/posting/getLatestPostings', auth.checkAuth, postingRoutes.getPostings);
 
 // user-related routes
 app.get('/user/get/:id', auth.checkAuth, userRoutes.get);
