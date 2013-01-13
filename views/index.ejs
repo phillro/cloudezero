@@ -11,10 +11,6 @@
                         <tr>
                             <td><a href="#" onclick="return showUser('{{posterId}}');">{{posterName}}</a></td>
                             <td>[<span class="postingLabel">{{date}}</span>]</td>
-                            <td>
-                                <a href="#" class="plusButton"></a>
-                                <a href="#" class="minusButton"></a>
-                            </td>
                         </tr>
                     </table>
                 </td>
@@ -22,6 +18,7 @@
         </table>
         <br>
     </div>
+    <hr>
 </script>
 
 <script type="text/javascript">
@@ -52,11 +49,9 @@
             latestPostId = post._id;
         }
 
-        mostRecentPostId === 0 ? $('#postings').html(newPost) : $('#' + mostRecentPostId).before(newPost);
+        mostRecentPostId === 0 ? $('#postings-container').html(newPost) : $('#' + mostRecentPostId).before(newPost);
         mostRecentPostId = post._id;
     }
 </script>
 
-<div id="postings">
-
-</div>
+<div id="postings-container"></div>

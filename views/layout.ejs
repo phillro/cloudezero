@@ -1,9 +1,6 @@
 <html xmlns="http://www.w3.org/1999/html">
 <head>
     <title>#external festivus</title>
-    <!-- fonts -->
-    <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
-
     <!-- css -->
     <link rel='stylesheet' href='/stylesheets/style.css'/>
     <link rel="stylesheet" href='/stylesheets/reveal.css'/>
@@ -17,7 +14,7 @@
 
     <!-- templates -->
     <script id='user-template' type='text/x-handlebars-template'>
-        <a href="#" onclick="return showUser('{{userId}}');">{{userName}}</a>
+        <a href="#" class="user-link" onclick="return showUser('{{userId}}');">{{userName}}</a>
     </script>
 
     <script id="user-modal-template" type='text/x-handlebars-template'>
@@ -68,27 +65,28 @@
     </script>
 </head>
 <body>
-<!-- header -->
-<table width=100%>
-    <tr>
-        <td width=50%>
-            <a href="https://github.com/cloudezero/cloudezero">src</a> |
-            <a href="https://github.com/cloudezero/cloudezero/issues">bugs</a> |
-            <a href="https://chrome.google.com/webstore/detail/cloudezero-extension/dnknklfndofeafbhgpkelkmddgnccmec" target="_blank">extension</a>
-
-        </td>
-        <td width=50% align="right">
-            logged in as <span id="current_user"></span> |
-            <a href="#" data-reveal-id="inviteModal">send invite</a> |
-            <a href="/logout">logout</a>
-        </td>
-    </tr>
-</table>
-<hr>
+<!-- header bar -->
+<div id="header-wrap">
+    <div id="header-left">
+        <span id="current_user" class="user-link"></span>
+    </div>
+    <div id="header-right">
+        <ul class="navbar">
+            <li><a href="https://github.com/cloudezero/cloudezero">src</a></li>
+            <li><a href="https://github.com/cloudezero/cloudezero/issues">bugs</a></li>
+            <li>
+                <a href="https://chrome.google.com/webstore/detail/cloudezero-extension/dnknklfndofeafbhgpkelkmddgnccmec"
+                   target="_blank">extension</a></li>
+            <li><a href="#" data-reveal-id="inviteModal">invite</a></li>
+            <li><a href="/logout">logout</a></li>
+        </ul>
+    </div>
+</div>
 
 <!-- body -->
 <%- body %>
 <!-- footer -->
+<div id="footer-wrap"><div align="center">chat is coming...</div></div>
 
 <!-- modals -->
 <div id="inviteModal" class="reveal-modal">
