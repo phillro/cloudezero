@@ -46,7 +46,7 @@ exports.addCommentToPosting = function (req, res) {
 };
 
 exports.getPostings = function (req, res) {
-  models.posting.find().sort('createdAt').limit(25).exec(function (err, docs) {
+  models.posting.find().sort('createdAt').limit(50).exec(function (err, docs) {
     res.send(docs);
   });
 };
