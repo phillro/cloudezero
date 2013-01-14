@@ -12,7 +12,7 @@ module.exports = {
   email:{
     server:{
       user:'bronsteinomatic@gmail.com',
-      password:'cloude000',
+      password:process.env.EMAIL_PASSWORD,
       host:'smtp.gmail.com',
       domain:'cloudezero.net',
       ssl:true},
