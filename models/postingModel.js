@@ -5,15 +5,11 @@ var Posting = new Schema({
   imageUrl:{type:String},
   userId:{type:ObjectId},
   nickname:String,
-  upvoters:[ObjectId],
-  downvoters:[ObjectId],
   comments:[
-    { userId:ObjectId,
+    {
       nickname:String,
-      date:{type:Date, default:Date.now},
-      text:String,
-      upvoters:[ObjectId],
-      downvoters:[ObjectId]}
+      text:String
+    }
   ],
   createdAt:{type:Date, default:Date.now}
 });

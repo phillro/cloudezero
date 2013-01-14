@@ -60,7 +60,9 @@ app.post('/register', auth.register);
 
 // posting related routes
 app.post('/posting/add', auth.checkAuth, postingRoutes.addPosting);
+app.post('/posting/addComment', auth.checkAuth, postingRoutes.addCommentToPosting);
 app.get('/posting/getLatestPostings', auth.checkAuth, postingRoutes.getPostings);
+app.get('/posting/getPosting/:postingId', auth.checkAuth, postingRoutes.getPosting);
 
 // user-related routes
 app.get('/user/get/:id', auth.checkAuth, userRoutes.get);
@@ -68,5 +70,5 @@ app.get('/user/current', auth.checkAuth, userRoutes.getCurrentUser);
 
 // start server
 http.createServer(app).listen(app.get('port'), function () {
-  console.log("Cloudezero server listening on port " + app.get('port'));
+  console.log("cloudezero running on port " + app.get('port'));
 });

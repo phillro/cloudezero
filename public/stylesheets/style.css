@@ -97,7 +97,7 @@ body {
 }
 
 .posting-infobar a {
-  color: #060606;
+  color: #000000;
   text-decoration: none;
 }
 
@@ -110,8 +110,26 @@ body {
   padding: 5px;
 }
 
-.posting-image {
-  margin-left: 10px;
+.posting-comments {
+  font-family: helvetica, sans-serif;
 }
+
+.posting-comments a {
+  color: #000000;
+  text-decoration: none;
+}
+
+.posting-comments a:hover {
+  color: #5d9529;
+}
+
+.posting-comments ul {
+  list-style-type: none;
+}
+
+.posting-comments li:before {
+  content: "\00BB \0020";
+}
+
 
 

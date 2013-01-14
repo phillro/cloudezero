@@ -1,51 +1,107 @@
 <!-- templates -->
 <script id='posting-template' type='text/x-handlebars-template'>
-    <div id={{id}} class='posting'>
-        <div class='posting-infobar-wrapper'>
-            <div class='posting-infobar'>
-                <a href="#" onclick="return showUser('{{posterId}}');">{{posterName}}</a>
-                » {{date}}
-            </div>
-        </div>
-        <div class='posting-image-wrapper'>
-            <div class='posting-image'>
-                <img src={{imageUrl}} onclick="return showImage('{{imageUrl}}');">
-            </div>
-        </div>
+  <div class='posting-infobar-wrapper'>
+    <div class='posting-infobar'>
+      <a href="#" onclick="return showUser('{{posterId}}');">{{posterName}}</a>
+      » {{date}}
     </div>
+  </div>
+  <div class='posting-content-wrapper'>
+    <table>
+      <tr>
+        <td>
+          <div class='posting-image'>
+            <img src={{imageUrl}} onclick="return showImage('{{imageUrl}}');">
+          </div>
+        </td>
+        <td>
+          <div class='posting-comments'>
+            <ul class="comments-list">
+              {{#each comments}}
+              <li><strong>{{this.nickname}}</strong> {{this.text}}</li>
+              {{/each}}
+            </ul>
+            <div id="add-comment-{{id}}" class='posting-comments'>
+              <a href="#" onclick="showCommentInput('{{id}}');">add a comment</a>
+            </div>
+            <div id="comment-input-{{id}}" style="display: none;">
+              <input id="comment-input-box-{{id}}" size="50" type='text'
+                     onkeypress="return addComment('{{id}}', this, event);"/>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
 </script>
 
 <script type="text/javascript">
-    var postingSource = $('#posting-template').html();
-    var postingTemplate = Handlebars.compile(postingSource);
+  var postingSource = $('#posting-template').html();
+  var postingTemplate = Handlebars.compile(postingSource);
 
-    var mostRecentPostId = 0;
-    var latestPostId = 0;
+  var mostRecentPostId = 0;
+  var latestPostId = 0;
 
-    $(document).ready(function () {
-        $.get('/posting/getLatestPostings', function (docs) {
-            for (var i = 0; i < docs.length; i++) {
-                addNewPost(docs[i]);
-            }
-        });
+  $(document).ready(function () {
+    $.get('/posting/getLatestPostings', function (docs) {
+      for (var i = 0; i < docs.length; i++) {
+        addNewPost(docs[i]);
+      }
+    });
+  });
+
+  function addNewPost(post) {
+    var newPost = postingTemplate({
+      id:post._id,
+      posterName:post.nickname,
+      posterId:post.userId,
+      date:$.format.date(new Date(post.createdAt), 'MM/dd h:mma'),
+      imageUrl:post.imageUrl,
+      comments:post.comments
     });
 
-    function addNewPost(post) {
-        var newPost = postingTemplate({
-            id:post._id,
-            posterName:post.nickname,
-            posterId:post.userId,
-            date:$.format.date(new Date(post.createdAt), 'MM/dd h:mma'),
-            imageUrl:post.imageUrl
-        });
-
-        if (latestPostId === 0) {
-            latestPostId = post._id;
-        }
-
-        mostRecentPostId === 0 ? $('#postings-container').html(newPost) : $('#' + mostRecentPostId).before(newPost);
-        mostRecentPostId = post._id;
+    if (latestPostId === 0) {
+      latestPostId = post._id;
     }
+
+    var posting = "<div id='" + post._id + "' class='posting'>" + newPost + "</div>";
+
+    mostRecentPostId === 0 ? $('#postings-container').html(posting) : $('#' + mostRecentPostId).before(posting);
+    mostRecentPostId = post._id;
+  }
+
+  function addComment(postingId, inputBox, event) {
+    if (event.which == 13) {
+      $.post('/posting/addComment', {postingId:postingId, text:inputBox.value}, function () {
+        updatePost(postingId);
+      });
+    }
+    else {
+      return true;
+    }
+  }
+
+  function updatePost(postingId) {
+    $.get('/posting/getPosting/' + postingId, function (post) {
+      var newPost = postingTemplate({
+        id:post._id,
+        posterName:post.nickname,
+        posterId:post.userId,
+        date:$.format.date(new Date(post.createdAt), 'MM/dd h:mma'),
+        imageUrl:post.imageUrl,
+        comments:post.comments
+      });
+
+      $('#' + postingId).html(newPost);
+    });
+  }
+
+  function showCommentInput(postingId) {
+    $('#comment-input-' + postingId).show();
+    var input = $('#comment-input-box-' + postingId);
+    input[0].selectionStart = input[0].selectionEnd = input.val().length;
+    $('#add-comment-' + postingId).hide();
+  }
 </script>
 
 <div id="postings-container"></div>
