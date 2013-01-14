@@ -1,9 +1,9 @@
 module.exports = {
   mongo:{
-    dbName:'heroku_app8902478',
-    port:41347,
-    host:'ds041347.mongolab.com',
-    user:'cloudezero',
+    dbName:process.env.MONGO_DB,
+    port:process.env.MONGO_PORT,
+    host:process.env.MONGO_HOST,
+    user:process.env.MONGO_USERNAME,
     password:process.env.MONGO_PASSWORD
   },
   redis:{
