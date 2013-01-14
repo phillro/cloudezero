@@ -31,7 +31,7 @@ body {
   width: 100%;
   position: fixed;
   top: 0;
-  margin: 0px auto;
+  margin: 0 auto;
   z-index: 100000;
   opacity: 0.8;
   padding: 0;
@@ -41,11 +41,11 @@ body {
   background-color: #000000;
   color: #ffffff;
   font-size: 16px;
-  height: 29px;
+  height: 50px;
   width: 100%;
   position: fixed;
   bottom: 0;
-  margin: 0px auto;
+  margin: 0 auto;
   z-index: 100000;
   opacity: 0.8;
   padding: 0;
@@ -75,6 +75,43 @@ body {
 }
 
 #postings-container {
-  margin-top: 33px;
+  margin-top: 29px;
 }
+
+.posting img {
+  max-height: 800px;
+  max-width: 800px;
+}
+
+.posting {
+  margin-bottom: 15px;
+}
+
+.posting-infobar-wrapper {
+  height: 29px;
+  width: 100%;
+  position: static;
+  margin: 0 auto;
+  padding: 0;
+  font-family: "bariol_bold", sans-serif;
+}
+
+.posting-infobar a {
+  color: #060606;
+  text-decoration: none;
+}
+
+.posting-infobar a:hover {
+  color: #5d9529;
+}
+
+.posting-infobar {
+  float: left;
+  padding: 5px;
+}
+
+.posting-image {
+  margin-left: 10px;
+}
+
 

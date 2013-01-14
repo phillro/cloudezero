@@ -1,24 +1,18 @@
 <!-- templates -->
 <script id='posting-template' type='text/x-handlebars-template'>
     <div id={{id}} class='posting'>
-        <table>
-            <tr>
-                <td>
-                    <img src={{imageUrl}}>
-                </td>
-                <td valign="top">
-                    <table>
-                        <tr>
-                            <td><a href="#" onclick="return showUser('{{posterId}}');">{{posterName}}</a></td>
-                            <td>[<span class="postingLabel">{{date}}</span>]</td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
-        <br>
+        <div class='posting-infobar-wrapper'>
+            <div class='posting-infobar'>
+                <a href="#" onclick="return showUser('{{posterId}}');">{{posterName}}</a>
+                » {{date}}
+            </div>
+        </div>
+        <div class='posting-image-wrapper'>
+            <div class='posting-image'>
+                <img src={{imageUrl}} onclick="return showImage('{{imageUrl}}');">
+            </div>
+        </div>
     </div>
-    <hr>
 </script>
 
 <script type="text/javascript">

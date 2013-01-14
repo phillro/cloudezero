@@ -24,7 +24,6 @@
         downvotes : {{downvotes}}<br/>
         posts: {{posts}}<br/>
         reposts: {{reposts}}<br/>
-
     </script>
 
     <script type='text/javascript'>
@@ -62,6 +61,10 @@
                 $('#userModal').reveal();
             });
         }
+
+        function showImage(imageUrl) {
+            window.open(imageUrl, '_blank');
+        }
     </script>
 </head>
 <body>
@@ -86,7 +89,9 @@
 <!-- body -->
 <%- body %>
 <!-- footer -->
-<div id="footer-wrap"><div align="center">chat is coming...</div></div>
+<div id="footer-wrap">
+    <div align="center">chat is coming...</div>
+</div>
 
 <!-- modals -->
 <div id="inviteModal" class="reveal-modal">
