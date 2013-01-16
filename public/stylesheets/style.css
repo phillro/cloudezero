@@ -73,10 +73,6 @@ body {
   max-width: 800px;
 }
 
-.posting {
-  margin-bottom: 15px;
-}
-
 .posting-infobar-wrapper {
   height: 29px;
   width: 100%;
@@ -98,10 +94,6 @@ body {
 .posting-infobar {
   float: left;
   padding: 5px;
-}
-
-.posting-comments {
-  font-family: helvetica, sans-serif;
 }
 
 .posting-comments a {

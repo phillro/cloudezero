@@ -14,15 +14,15 @@
             <img src={{imageUrl}} onclick="return showImage('{{imageUrl}}');">
           </div>
         </td>
-        <td>
+        <td valign="top">
           <div class='posting-comments'>
             <ul class="comments-list">
               {{#each comments}}
-              <li><strong>{{this.nickname}}</strong> {{this.text}}</li>
+              <li><em>{{this.nickname}}</em> {{this.text}}</li>
               {{/each}}
             </ul>
             <div id="add-comment-{{id}}" class='posting-comments'>
-              <a href="#" onclick="showCommentInput('{{id}}');">add a comment</a>
+              <a href="#" onclick="showCommentInput('{{id}}');"><img src='/images/comment-icon.png'></a>
             </div>
             <div id="comment-input-{{id}}" style="display: none;">
               <input id="comment-input-box-{{id}}" size="50" type='text'
