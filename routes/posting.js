@@ -18,10 +18,17 @@ exports.addPosting = function (req, res) {
 
   models.user.findById(req.session.user_id, function (err, user) {
     // check for repost before adding
-    models.posting.count({'imageUrl':post.imageUrl}, function (err, cnt) {
-      if (cnt === 0) {
+    models.posting.findOne({imageUrl:post.imageUrl}, function (err, doc) {
+      if(doc){
+        // ding the user for reposting
+        user.reposts++;
+        user.save();
+        
+        // send repost fail
+        res.send({status:0, message: doc.nickname + ' at ' + doc.createdAt});
+      } else {
         var newPost = new models.posting;
-
+        
         newPost.imageUrl = post.imageUrl;
         newPost.userId = user.id;
         newPost.nickname = user.nickname;
@@ -35,15 +42,6 @@ exports.addPosting = function (req, res) {
             res.send({status:-1, message:err.message});
           }
         });
-      } else {
-        // ding the user for reposting
-        user.reposts++;
-        user.save();
-        
-        // send repost fail
-        // TODO: it would be cool if this returned a message saying who
-        // originally posted this image and when.
-        res.send({status:0});
       }
     });
   });
