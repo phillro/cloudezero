@@ -1,7 +1,20 @@
 var models = require('../models');
 
+/**
+ * This is the endpoint unto which image links are POSTed.
+ *
+ * The extension expects to receive an object containing a 
+ * status and an optional string.
+ *
+ * Statuses are : -1 for error, 0 for repost, 1 for ok and
+ * the messages contain error info or repost info.
+ */
 exports.addPosting = function (req, res) {
   var post = req.body;
+  
+  if(post.imageUrl == null) {
+    res.send({status:-1, message:"No image URL specified!"});
+  }
 
   models.user.findById(req.session.user_id, function (err, user) {
     // check for repost before adding
@@ -17,14 +30,20 @@ exports.addPosting = function (req, res) {
             user.posts++;
             user.save();
             console.log(user.nickname + " added " + newPost.imageUrl);
-            res.send("OK");
+            res.send({status:1});
+          }else{
+            res.send({status:-1, message:err.message});
           }
         });
       } else {
+        // ding the user for reposting
         user.reposts++;
         user.save();
-        console.log(user.nickname + " reposted " + newPost.imageUrl);
-        res.send("REPOST");
+        
+        // send repost fail
+        // TODO: it would be cool if this returned a message saying who
+        // originally posted this image and when.
+        res.send({status:0});
       }
     });
   });
