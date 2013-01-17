@@ -42,6 +42,7 @@ exports.addPosting = function (req, res) {
             user.posts++;
             user.save();
             console.log(user.nickname + " added " + newPost.imageUrl);
+            redis.publish('new-postings', newPost.id);
             res.send({status:1});
           } else {
             res.send({status:-1, message:err.message});

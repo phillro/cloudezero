@@ -113,5 +113,18 @@ body {
   content: "\00BB \0020";
 }
 
+#alert-bar {
+  background-color: #000000;
+  color: #ffffff;
+  height: 29px;
+  width: 100%;
+  position: fixed;
+  top: 29px;
+  margin: 0 auto;
+  z-index: 100000;
+  opacity: 0.8;
+  padding: 0;
+}
+
 
 

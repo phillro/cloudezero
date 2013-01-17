@@ -4,6 +4,9 @@ var postingTemplate = Handlebars.compile(postingSource);
 var mostRecentPostId = 0;
 var latestPostId = 0;
 
+// this holds the posting ids that have arrived after the initial load
+var newPostings = [];
+
 $(document).ready(function () {
   $.get('/posting/getLatestPostings', function (docs) {
     for (var i = 0; i < docs.length; i++) {
@@ -19,8 +22,26 @@ $(document).ready(function () {
     if (data.channel === 'posting-updates') {
       updatePost(data.message);
     }
+
+    // new-postings sends ids of new postings
+    if (data.channel === 'new-postings') {
+      updateNewPostings(data.message);
+    }
   });
 });
+
+function updateNewPostings(postingId) {
+  newPostings.push(postingId);
+
+  $('#num-new-postings').innerHTML(newPostings.length);
+  var alertBar = $('#alert-bar');
+
+  if (!alertBar.is(":visible")) {
+    alertBar.show(1000, function () {
+      // don't care.
+    });
+  }
+}
 
 function addNewPost(post) {
   var newPost = postingTemplate({

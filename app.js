@@ -92,6 +92,6 @@ io.sockets.on('connection', function (socket) {
     socket.emit('updates', {channel:channel, message:message});
   });
 
-  // channel that spits out postingIds when they update
   redis.subscribe('posting-updates');
+  redis.subscribe('new-postings');
 });
