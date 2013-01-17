@@ -101,3 +101,33 @@ function hideCommentInput(postingId) {
   $('#comment-input-' + postingId).hide();
   $('#add-comment-' + postingId).show();
 }
+
+function showUser(userId) {
+  getUser(userId, function (user) {
+    var modalContent = userModalTemplate({
+      name:user.nickname,
+      email:user.email,
+      downvotes:user.downvotes,
+      upvotes:user.upvotes,
+      posts:user.posts,
+      reposts:user.reposts,
+      inviter:(user.can_invite ? "CAN INVITE" : "")
+    });
+    $('#usermodal_content').html(modalContent);
+    $('#userModal').reveal();
+  });
+}
+
+function showImage(imageUrl) {
+  window.open(imageUrl, '_blank');
+}
+
+getCurrentUser(function (user) {
+  $('#current_user').html(userTemplate({userId:user._id, userName:user.nickname}));
+});
+
+$('#submitInvite').click(function () {
+  $.post('send_invite', {email:$('#emailAddressToInvite').val()}, function (data) {
+    $('#inviteStatus').html(data);
+  });
+});

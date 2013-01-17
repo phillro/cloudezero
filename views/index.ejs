@@ -1,40 +1,162 @@
-<!-- template for postings -->
-<script id='posting-template' type='text/x-handlebars-template'>
-  <div class='posting-infobar-wrapper'>
-    <div class='posting-infobar'>
-      <a href="#" onclick="return showUser('{{posterId}}');">{{posterName}}</a>
-      » {{date}}
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+  <title>#external festivus</title>
+  <!-- css -->
+  <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+  <link rel='stylesheet' href='/stylesheets/style.css'/>
+  <link rel="stylesheet" href='/stylesheets/reveal.css'/>
+
+  <!-- js -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script src='/javascripts/jquery.dateFormat-1.0.js' type='text/javascript'></script>
+  <script src="/javascripts/jquery.reveal.js" type="text/javascript"></script>
+  <script src="/javascripts/handlebars.js" type="text/javascript"></script>
+  <script src="/javascripts/users.js" type="text/javascript"></script>
+  <script type="text/javascript" src="/javascripts/index.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+
+  <!-- templates -->
+  <script id='user-template' type='text/x-handlebars-template'>
+    <a href="#" class="user-link" onclick="return showUser('{{userId}}');">{{userName}}</a>
+  </script>
+
+  <script id="user-modal-template" type='text/x-handlebars-template'>
+    <h1>{{name}} <font color=green>{{inviter}}</font></h1>
+    {{email}}<br/>
+    upvotes : {{upvotes}}<br/>
+    downvotes : {{downvotes}}<br/>
+    posts: {{posts}}<br/>
+    reposts: {{reposts}}<br/>
+  </script>
+
+  <script id='posting-template' type='text/x-handlebars-template'>
+    <div class='posting-infobar-wrapper'>
+      <div class='posting-infobar'>
+        <a href="#" onclick="return showUser('{{posterId}}');">{{posterName}}</a>
+        » {{date}}
+      </div>
     </div>
-  </div>
-  <div class='posting-content-wrapper'>
-    <table>
-      <tr>
-        <td>
-          <div class='posting-image'>
-            <img src={{imageUrl}} onclick="return showImage('{{imageUrl}}');">
-          </div>
-        </td>
-        <td valign="top">
-          <div class='posting-comments'>
-            <ul class="comments-list">
-              {{#each comments}}
-              <li><em>{{this.nickname}}</em> {{this.text}}</li>
-              {{/each}}
-            </ul>
-            <div id="add-comment-{{id}}" class='posting-comments'>
-              <a href="#" onclick="showCommentInput('{{id}}');"><img src='/images/comment-icon.png'></a>
+    <div class='posting-content-wrapper'>
+      <table>
+        <tr>
+          <td>
+            <div class='posting-image'>
+              <img src={{imageUrl}} onclick="return showImage('{{imageUrl}}');">
             </div>
-            <div id="comment-input-{{id}}" style="display: none;">
-              <input id="comment-input-box-{{id}}" size="50" type='text'
-                     onkeypress="return addComment('{{id}}', this, event);"/>
+          </td>
+          <td valign="top">
+            <div class='posting-comments'>
+              <ul class="comments-list">
+                {{#each comments}}
+                <li><em>{{this.nickname}}</em> {{this.text}}</li>
+                {{/each}}
+              </ul>
+              <div id="add-comment-{{id}}" class='posting-comments'>
+                <a href="#" onclick="showCommentInput('{{id}}');"><img src='/images/comment-icon.png'></a>
+              </div>
+              <div id="comment-input-{{id}}" style="display: none;">
+                <input id="comment-input-box-{{id}}" size="50" type='text'
+                       onkeypress="return addComment('{{id}}', this, event);"/>
+              </div>
             </div>
-          </div>
-        </td>
-      </tr>
-    </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </script>
+
+  <script type='text/javascript'>
+    var postingSource = $('#posting-template').html();
+    var postingTemplate = Handlebars.compile(postingSource);
+    var userSource = $('#user-template').html();
+    var userTemplate = Handlebars.compile(userSource);
+    var userModalSource = $('#user-modal-template').html();
+    var userModalTemplate = Handlebars.compile(userModalSource);
+  </script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      getCurrentUser(function (user) {
+        $('#current_user').html(userTemplate({userId:user._id, userName:user.nickname}));
+      });
+
+      $('#submitInvite').click(function () {
+        $.post('send_invite', {email:$('#emailAddressToInvite').val()}, function (data) {
+          $('#inviteStatus').html(data);
+        });
+      });
+    });
+
+    function showUser(userId) {
+      getUser(userId, function (user) {
+        var modalContent = userModalTemplate({
+          name:user.nickname,
+          email:user.email,
+          downvotes:user.downvotes,
+          upvotes:user.upvotes,
+          posts:user.posts,
+          reposts:user.reposts,
+          inviter:(user.can_invite ? "CAN INVITE" : "")
+        });
+        $('#usermodal_content').html(modalContent);
+        $('#userModal').reveal();
+      });
+    }
+
+    function showImage(imageUrl) {
+      window.open(imageUrl, '_blank');
+    }
+  </script>
+</head>
+<body>
+<!-- header bar -->
+<div id="header-wrap">
+  <div id="header-left">
+    <span id="current_user" class="user-link"></span>
   </div>
-</script>
+  <div id="header-right">
+    <ul class="navbar">
+      <li><a href="https://github.com/cloudezero/cloudezero" target="_blank">src</a></li>
+      <li><a href="https://github.com/cloudezero/cloudezero/issues" target="_blank">bugs</a></li>
+      <li>
+        <a href="https://chrome.google.com/webstore/detail/cloudezero-extension/dnknklfndofeafbhgpkelkmddgnccmec"
+           target="_blank">extension</a></li>
+      <li><a href="#" data-reveal-id="inviteModal">invite</a></li>
+      <li><a href="/logout">logout</a></li>
+    </ul>
+  </div>
+</div>
+<div id="alert-bar" style="display:none;">
+  <span id="num-new-postings"></span> new posting(s).
+</div>
 
-<script type="text/javascript" src="/javascripts/index.js"></script>
-
+<!-- body -->
 <div id="postings-container"></div>
+<!-- footer -->
+<div id="footer-wrap">
+  <div align="center">better repost support... stability issues fixed... extension autologin done... submit
+    features/bugs up above... chat is coming...
+  </div>
+  <div align="center">version 0.10</div>
+</div>
+
+<!-- modals -->
+<div id="inviteModal" class="reveal-modal">
+  <h1>Invite a friend</h1>
+
+  <p>
+    <label for="emailAddressToInvite">email address </label>
+    <input type="text" id="emailAddressToInvite" placeholder="bronstein@aol.com"/>
+    <input type="button" id="submitInvite" value="send"/>
+  </p>
+
+  <p id="inviteStatus"></p>
+  <a class="close-reveal-modal">&#215;</a>
+</div>
+
+<div id="userModal" class="reveal-modal">
+  <p id="usermodal_content"></p>
+  <a class="close-reveal-modal">&#215;</a>
+</div>
+</body>
+</html>
