@@ -68,6 +68,31 @@ app.get('/posting/getPosting/:postingId', auth.checkAuth, postingRoutes.getPosti
 app.get('/user/get/:id', auth.checkAuth, userRoutes.get);
 app.get('/user/current', auth.checkAuth, userRoutes.getCurrentUser);
 
+// start updates sockets
+var io = require('socket.io').listen(app);
+
+io.configure(function () {
+  io.set('log level', 1);
+  io.set("transports", ["xhr-polling"]);
+  io.set("polling duration", 10);
+});
+
+io.sockets.on('connection', function (socket) {
+  var rtg   = require("url").parse(conf.redis.url);
+  var redis = require("redis").createClient(rtg.port, rtg.hostname);
+  redis.auth(rtg.auth.split(":")[1]);
+
+  var client = redis.createClient(conf.redis.url);
+
+  client.on('message', function (channel, message) {
+    socket.emit('updates', {channel:channel, message:message});
+    alert(message);
+  });
+
+  client.subscribe('updates');
+  client.publish('updates', "hi");
+});
+
 // start server
 http.createServer(app).listen(app.get('port'), function () {
   console.log("cloudezero running on port " + app.get('port'));
