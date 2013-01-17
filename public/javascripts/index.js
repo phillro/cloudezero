@@ -54,6 +54,8 @@ function updateNewPostings(postingId) {
     alertBar.show(1000, function () {
       // don't care.
     });
+
+
   }
 }
 
