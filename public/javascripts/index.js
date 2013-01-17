@@ -17,7 +17,6 @@ $(document).ready(function () {
   socket.on('updates', function (data) {
     // posting-updates channel sends posting ids to update
     if (data.channel === 'posting-updates') {
-      alert(data.message);
       updatePost(data.message);
     }
   });
@@ -46,7 +45,7 @@ function addNewPost(post) {
 function addComment(postingId, inputBox, event) {
   if (event.which == 13) {
     $.post('/posting/addComment', {postingId:postingId, text:inputBox.value}, function () {
-      //updatePost(postingId);
+      hideCommentInput(postingId);
     });
   }
   else {
@@ -69,9 +68,15 @@ function updatePost(postingId) {
   });
 }
 
+// TODO: make this a jq toggle
 function showCommentInput(postingId) {
   $('#comment-input-' + postingId).show();
   var input = $('#comment-input-box-' + postingId);
   input[0].selectionStart = input[0].selectionEnd = input.val().length;
   $('#add-comment-' + postingId).hide();
+}
+
+function hideCommentInput(postingId) {
+  $('#comment-input-' + postingId).hide();
+  $('#add-comment-' + postingId).show();
 }

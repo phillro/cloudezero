@@ -64,8 +64,7 @@ exports.addCommentToPosting = function (req, res) {
       posting.save();
 
       // send update notification
-      redis.publish('post_updates', posting.id);
-      console.log('comment added to ' + posting.id);
+      redis.publish('posting-updates', posting.id);
       res.send('ok');
     });
   });
