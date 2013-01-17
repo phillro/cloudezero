@@ -12,6 +12,10 @@ var latestPostId = 0;
 var newPostings = [];
 
 $(document).ready(function () {
+  getCurrentUser(function (user) {
+    $('#current_user').html(userTemplate({userId:user._id, userName:user.nickname}));
+  });
+
   $.get('/posting/getLatestPostings', function (docs) {
     for (var i = 0; i < docs.length; i++) {
       addNewPost(docs[i]);
@@ -31,6 +35,12 @@ $(document).ready(function () {
     if (data.channel === 'new-postings') {
       updateNewPostings(data.message);
     }
+  });
+
+  $('#submitInvite').click(function () {
+    $.post('send_invite', {email:$('#emailAddressToInvite').val()}, function (data) {
+      $('#inviteStatus').html(data);
+    });
   });
 });
 
@@ -126,12 +136,14 @@ function showImage(imageUrl) {
   window.open(imageUrl, '_blank');
 }
 
-getCurrentUser(function (user) {
-  $('#current_user').html(userTemplate({userId:user._id, userName:user.nickname}));
-});
-
-$('#submitInvite').click(function () {
-  $.post('send_invite', {email:$('#emailAddressToInvite').val()}, function (data) {
-    $('#inviteStatus').html(data);
+function getCurrentUser(callback) {
+  $.get('user/current', function (data) {
+    callback(data);
   });
-});
+}
+
+function getUser(userId, callback) {
+  $.get('user/get/' + userId, function (data) {
+    callback(data);
+  });
+}
