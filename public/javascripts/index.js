@@ -1,5 +1,9 @@
 var postingSource = $('#posting-template').html();
 var postingTemplate = Handlebars.compile(postingSource);
+var userSource = $('#user-template').html();
+var userTemplate = Handlebars.compile(userSource);
+var userModalSource = $('#user-modal-template').html();
+var userModalTemplate = Handlebars.compile(userModalSource);
 
 var mostRecentPostId = 0;
 var latestPostId = 0;
@@ -33,7 +37,7 @@ $(document).ready(function () {
 function updateNewPostings(postingId) {
   newPostings.push(postingId);
 
-  $('#num-new-postings').innerHTML(newPostings.length);
+  $('#num-new-postings').text(newPostings.length);
   var alertBar = $('#alert-bar');
 
   if (!alertBar.is(":visible")) {

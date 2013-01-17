@@ -65,15 +65,6 @@
     </div>
   </script>
 
-  <script type='text/javascript'>
-    var postingSource = $('#posting-template').html();
-    var postingTemplate = Handlebars.compile(postingSource);
-    var userSource = $('#user-template').html();
-    var userTemplate = Handlebars.compile(userSource);
-    var userModalSource = $('#user-modal-template').html();
-    var userModalTemplate = Handlebars.compile(userModalSource);
-  </script>
-
   <script type="text/javascript">
     $(document).ready(function () {
       getCurrentUser(function (user) {
