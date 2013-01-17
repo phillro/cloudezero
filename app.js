@@ -24,6 +24,7 @@ var app = express();
 app.configure(configureExpress);
 
 function configureExpress() {
+  app.use(express.favicon(__dirname + '/public/images/favicon.ico'));
   var redisUrl = url.parse(conf.redis.url);
   var redisAuth = redisUrl.auth.split(':');
   app.set('redisHost', redisUrl.hostname);
