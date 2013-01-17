@@ -55,7 +55,7 @@ function updateNewPostings(postingId) {
       // don't care.
     });
 
-
+    $('#postings-container').css('margin-top', '48px');
   }
 }
 
