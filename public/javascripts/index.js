@@ -69,6 +69,7 @@ function updateNewPostings(postingId) {
   newPostings.push(postingId);
 
   $('#num-new-postings').text(newPostings.length);
+  document.title = ('#external-festivus (' + newPostings.length + ')');
   var alertBar = $('#alert-bar');
 
   if (!alertBar.is(":visible")) {
