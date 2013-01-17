@@ -1,3 +1,10 @@
+/*
+ * @author brianstarke (brian.starke@gmail.com)
+ *
+ * Free to use under the MIT license.
+ * http://www.opensource.org/licenses/mit-license.php
+ */
+
 var models = require('../models'),
     conf = require('../etc/config.js'),
     rtg = require("url").parse(conf.redis.url),

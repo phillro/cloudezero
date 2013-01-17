@@ -1,3 +1,10 @@
+/*
+ * @author brianstarke (brian.starke@gmail.com)
+ *
+ * Free to use under the MIT license.
+ * http://www.opensource.org/licenses/mit-license.php
+ */
+
 var conf = require('./etc/config.js'),
     express = require('express'),
     http = require('http'),
