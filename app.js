@@ -68,32 +68,30 @@ app.get('/posting/getPosting/:postingId', auth.checkAuth, postingRoutes.getPosti
 app.get('/user/get/:id', auth.checkAuth, userRoutes.get);
 app.get('/user/current', auth.checkAuth, userRoutes.getCurrentUser);
 
-// start updates sockets
-var io = require('socket.io').listen(app);
+// start server
+var server = http.createServer(app).listen(app.get('port'), function () {
+  console.log("cloudezero running on port " + app.get('port'));
+});
 
+// attach sockets
+io = require('socket.io').listen(server);
+
+// start updates sockets
 io.configure(function () {
   io.set('log level', 1);
   io.set("transports", ["xhr-polling"]);
-  io.set("polling duration", 10);
+  io.set("polling duration", 5);
 });
 
 io.sockets.on('connection', function (socket) {
-  var rtg   = require("url").parse(conf.redis.url);
+  var rtg = require("url").parse(conf.redis.url);
   var redis = require("redis").createClient(rtg.port, rtg.hostname);
   redis.auth(rtg.auth.split(":")[1]);
 
-  var client = redis.createClient(conf.redis.url);
-
-  client.on('message', function (channel, message) {
+  redis.on('message', function (channel, message) {
     socket.emit('updates', {channel:channel, message:message});
-    alert(message);
   });
 
-  client.subscribe('updates');
-  client.publish('updates', "hi");
-});
-
-// start server
-http.createServer(app).listen(app.get('port'), function () {
-  console.log("cloudezero running on port " + app.get('port'));
+  // channel that spits out postingIds when they update
+  redis.subscribe('posting-updates');
 });

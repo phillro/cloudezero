@@ -1,9 +1,14 @@
-var models = require('../models');
+var models = require('../models'),
+    conf = require('../etc/config.js'),
+    rtg = require("url").parse(conf.redis.url),
+    redis = require("redis").createClient(rtg.port, rtg.hostname);
+
+redis.auth(rtg.auth.split(":")[1]);
 
 /**
  * This is the endpoint unto which image links are POSTed.
  *
- * The extension expects to receive an object containing a 
+ * The extension expects to receive an object containing a
  * status and an optional string.
  *
  * Statuses are : -1 for error, 0 for repost, 1 for ok and
@@ -11,24 +16,24 @@ var models = require('../models');
  */
 exports.addPosting = function (req, res) {
   var post = req.body;
-  
-  if(post.imageUrl == null) {
+
+  if (post.imageUrl == null) {
     res.send({status:-1, message:"No image URL specified!"});
   }
 
   models.user.findById(req.session.user_id, function (err, user) {
     // check for repost before adding
     models.posting.findOne({imageUrl:post.imageUrl}, function (err, doc) {
-      if(doc){
+      if (doc) {
         // ding the user for reposting
         user.reposts++;
         user.save();
-        
+
         // send repost fail
-        res.send({status:0, message: doc.nickname + ' at ' + doc.createdAt});
+        res.send({status:0, message:doc.nickname + ' at ' + doc.createdAt});
       } else {
         var newPost = new models.posting;
-        
+
         newPost.imageUrl = post.imageUrl;
         newPost.userId = user.id;
         newPost.nickname = user.nickname;
@@ -38,7 +43,7 @@ exports.addPosting = function (req, res) {
             user.save();
             console.log(user.nickname + " added " + newPost.imageUrl);
             res.send({status:1});
-          }else{
+          } else {
             res.send({status:-1, message:err.message});
           }
         });
@@ -57,6 +62,10 @@ exports.addCommentToPosting = function (req, res) {
       comment['text'] = post.text;
       posting.comments.push(comment);
       posting.save();
+
+      // send update notification
+      redis.publish('post_updates', posting.id);
+      console.log('comment added to ' + posting.id);
       res.send('ok');
     });
   });

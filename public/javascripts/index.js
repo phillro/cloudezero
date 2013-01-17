@@ -10,6 +10,17 @@ $(document).ready(function () {
       addNewPost(docs[i]);
     }
   });
+
+  // open socket for live updates
+  var socket = io.connect();
+
+  socket.on('updates', function (data) {
+    // posting-updates channel sends posting ids to update
+    if (data.channel === 'posting-updates') {
+      alert(data.message);
+      updatePost(data.message);
+    }
+  });
 });
 
 function addNewPost(post) {
@@ -35,7 +46,7 @@ function addNewPost(post) {
 function addComment(postingId, inputBox, event) {
   if (event.which == 13) {
     $.post('/posting/addComment', {postingId:postingId, text:inputBox.value}, function () {
-      updatePost(postingId);
+      //updatePost(postingId);
     });
   }
   else {
