@@ -20,11 +20,14 @@ var conf = require('./etc/config.js'),
 
 var app = express();
 
-// configure redis
+// configure redis for sessions
 var redisUrl = url.parse(conf.redis.url);
 var redisHost = redisUrl.hostname.split(':')[0];
 var redisPort = redisUrl.port;
 var redisAuth = redisUrl.auth.split(':');
+
+var redis = require("redis").createClient(redisPort, redisHost);
+redis.auth(redisAuth[1]);
 
 // configure app
 app.configure(configureExpress);
@@ -39,10 +42,7 @@ function configureExpress() {
   app.use(express.session({
     secret:'bgockbgockbgock',
     store:new redisStore({
-      host:app.set('redisHost'),
-      port:app.set('redisPort'),
-      db:app.set('redisDb'),
-      pass:app.set('redisPass')
+      client:redis
     })
   }));
   app.set('port', process.env.PORT || 3000);
@@ -101,8 +101,8 @@ io.configure(function () {
 });
 
 io.sockets.on('connection', function (socket) {
+  // create client for pub/sub (1 per user)
   var redis = require("redis").createClient(redisPort, redisHost);
-  console.log(redis);
   redis.auth(redisAuth[1]);
 
   redis.on('message', function (channel, message) {
