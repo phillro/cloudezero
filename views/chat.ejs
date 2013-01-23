@@ -8,7 +8,7 @@
 
   <!-- audio -->
   <audio>
-  	<source src="/audio/fart.wav"></source>
+    <source src="/audio/fart.wav"></source>
   </audio>
 
   <!-- js -->
@@ -24,6 +24,7 @@
 
   <script type="text/javascript">
     var chatMessageTemplate = Handlebars.compile($('#chat-message-template').html());
+    var newMessageAlert = document.getElementsByTagName("audio")[0];
 
     // open socket for live updates
     var socket = io.connect();
@@ -32,11 +33,11 @@
     socket.on('updates', function (data) {
       // new chat message
       if (data.channel === 'chat') {
-        rcvMessage(JSON.parse(data.message));
+        rcvMessage(JSON.parse(data.message), false);
       }
     });
 
-    function rcvMessage(message) {
+    function rcvMessage(message, isInitial) {
       var newMessage = chatMessageTemplate({
         nickname:message.nickname,
         message:message.message
@@ -44,8 +45,9 @@
 
       $('#chat-container').append(newMessage);
       $("#chat-container").scrollTop($("#chat-container")[0].scrollHeight);
-      var audio = document.getElementsByTagName("audio")[0];
-      audio.play();
+      if (!isInitial) {
+        newMessageAlert.play();
+      }
     }
 
     // send message
@@ -63,7 +65,7 @@
     $(document).ready(function () {
       $.get('/chat/getMessages', function (docs) {
         for (var i = 0; i < docs.length; i++) {
-          rcvMessage(docs[i]);
+          rcvMessage(docs[i], true);
         }
       });
     });
