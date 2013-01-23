@@ -10,7 +10,6 @@ var conf = require('./etc/config.js'),
     http = require('http'),
     partials = require('express-partials'),
     path = require('path'),
-    redis = require('redis'),
     redisStore = require('connect-redis')(express),
     routes = require('./routes'),
     url = require('url'),
@@ -21,15 +20,19 @@ var conf = require('./etc/config.js'),
 
 var app = express();
 
+// configure redis
+var redisUrl = url.parse(conf.redis.url);
+var redisHost = redisUrl.hostname.split(':')[0];
+var redisPort = redisUrl.port;
+var redisAuth = redisUrl.auth.split(':');
+
 // configure app
 app.configure(configureExpress);
 
 function configureExpress() {
   app.use(express.favicon(__dirname + '/public/images/favicon.ico'));
-  var redisUrl = url.parse(conf.redis.url);
-  var redisAuth = redisUrl.auth.split(':');
-  app.set('redisHost', redisUrl.hostname);
-  app.set('redisPort', redisUrl.port);
+  app.set('redisHost', redisHost);
+  app.set('redisPort', redisPort);
   app.set('redisDb', redisAuth[0]);
   app.set('redisPass', redisAuth[1]);
   app.use(express.cookieParser());
@@ -98,15 +101,15 @@ io.configure(function () {
 });
 
 io.sockets.on('connection', function (socket) {
-  var rtg = require("url").parse(conf.redis.url);
-  var redis = require("redis").createClient(rtg.port, rtg.hostname);
-  redis.auth(rtg.auth.split(":")[1]);
+  var redis = require("redis").createClient(redisPort, redisHost);
+  console.log(redis);
+  redis.auth(redisAuth[1]);
 
   redis.on('message', function (channel, message) {
     socket.emit('updates', {channel:channel, message:message});
   });
 
-  redis.on('error', function(e){
+  redis.on('error', function (e) {
     console.log(e);
   });
 

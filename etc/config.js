@@ -7,7 +7,7 @@ module.exports = {
     password:process.env.MONGO_PASSWORD
   },
   redis:{
-    url:process.env.REDISCLOUD_URL
+    url:process.env.REDISTOGO_URL
   },
   email:{
     server:{
