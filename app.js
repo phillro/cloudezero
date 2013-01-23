@@ -15,6 +15,7 @@ var conf = require('./etc/config.js'),
     routes = require('./routes'),
     url = require('url'),
     auth = require('./routes/auth'),
+    chatRoutes = require('./routes/chat'),
     postingRoutes = require('./routes/posting'),
     userRoutes = require('./routes/user');
 
@@ -66,6 +67,11 @@ app.post('/send_invite', auth.sendInvite);
 app.get('/invited/:invite_id', auth.showRegister);
 app.post('/register', auth.register);
 
+// chat related routes
+app.get('/chat', auth.checkAuth, chatRoutes.index);
+app.get('/chat/getMessages', auth.checkAuth, chatRoutes.getMessages);
+app.post('/chat/addMessage', auth.checkAuth, chatRoutes.addMessage);
+
 // posting related routes
 app.post('/posting/add', auth.checkAuth, postingRoutes.addPosting);
 app.post('/posting/addComment', auth.checkAuth, postingRoutes.addCommentToPosting);
@@ -88,7 +94,7 @@ io = require('socket.io').listen(server);
 io.configure(function () {
   io.set('log level', 1);
   io.set("transports", ["xhr-polling"]);
-  io.set("polling duration", 5);
+  io.set("polling duration", 10);
 });
 
 io.sockets.on('connection', function (socket) {
@@ -102,4 +108,5 @@ io.sockets.on('connection', function (socket) {
 
   redis.subscribe('posting-updates');
   redis.subscribe('new-postings');
+  redis.subscribe('chat');
 });

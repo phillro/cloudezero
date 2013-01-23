@@ -1,0 +1,36 @@
+/*
+ * @author brianstarke (brian.starke@gmail.com)
+ *
+ * Free to use under the MIT license.
+ * http://www.opensource.org/licenses/mit-license.php
+ */
+
+body {
+  margin: 0px;
+  font-family: 'Inconsolata', sans-serif;
+  font-size: 16px;
+  color: white;
+}
+
+#chat-container {
+  height: 370px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  margin: 0 auto;
+  overflow: scroll;
+  padding: 5px;
+}
+
+#chat-controls {
+  height: 26px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  margin: 0 auto;
+}
+
+
+
+
+
