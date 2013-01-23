@@ -8,7 +8,7 @@
  */
 
 // Handlebars templates
-var templatesList = ['posting', 'user', 'user-modal'];
+var templatesList = ['posting', 'user', 'user-modal', 'chat-message'];
 var templatesMap = {};
 
 // keep track of these so we can place posts before and after
@@ -18,6 +18,12 @@ var latestPostId = 0;
 
 // this holds the posting ids that have arrived after the initial load
 var newPostings = [];
+
+// are we in 'alert' state?
+var newMessageAlert = document.getElementsByTagName("audio")[0];
+var notifyIsOn = false;
+
+var currentTitle = "#external festivus";
 
 // onload handler
 $(document).ready(function () {
@@ -54,6 +60,11 @@ $(document).ready(function () {
     if (data.channel === 'new-postings') {
       updateNewPostings(data.message);
     }
+
+    // new chat message
+    if (data.channel === 'chat') {
+      rcvMessage(JSON.parse(data.message), false);
+    }
   });
 
   // initialize submit modal
@@ -62,6 +73,16 @@ $(document).ready(function () {
       $('#inviteStatus').html(data);
     });
   });
+
+  $.get('/chat/getMessages', function (docs) {
+    for (var i = 0; i < docs.length; i++) {
+      rcvMessage(docs[i], true);
+    }
+  });
+
+  $('#chat-container').mouseover(function () {
+    newMessageAck();
+  });
 });
 
 // update the alert bar when new postings come in
@@ -69,7 +90,8 @@ function updateNewPostings(postingId) {
   newPostings.push(postingId);
 
   $('#num-new-postings').text(newPostings.length);
-  document.title = ('#external-festivus (' + newPostings.length + ')');
+  currentTitle = ('#external festivus (' + newPostings.length + ')');
+  document.title = currentTitle;
   var alertBar = $('#alert-bar');
 
   if (!alertBar.is(":visible")) {
@@ -178,3 +200,56 @@ function getUser(userId, callback) {
     callback(data);
   });
 }
+
+function rcvMessage(message, isInitial) {
+  var newMessage = templatesMap['chat-message']({
+    nickname:message.nickname,
+    message:message.message
+  });
+
+  var chatContainer = $('#chat-container');
+
+  chatContainer.append(newMessage);
+  chatContainer.scrollTop(chatContainer[0].scrollHeight);
+  if (!isInitial) {
+    newMessageNotify(message.nickname);
+  }
+}
+
+// send message
+function addMessage(inputBox, event) {
+  if (event.which == 13) {
+    $.post('/chat/addMessage', {message:inputBox.value}, function () {
+      inputBox.value = '';
+    });
+  }
+  else {
+    return true;
+  }
+}
+
+var titleTimer;
+
+function newMessageNotify(nickname) {
+  newMessageAlert.play();
+  $('#chat-container').css('background-color', '#5d9529');
+  notifyIsOn = true;
+
+  titleTimer = setInterval(function () {
+    if (document.title === currentTitle) {
+      document.title = nickname + ' said something';
+    } else {
+      document.title = currentTitle;
+    }
+  }, 2000);
+}
+
+function newMessageAck() {
+  if (notifyIsOn) {
+    notifyIsOn = false;
+    $('#chat-container').css('background-color', '#3b5e2e');
+    clearInterval(titleTimer);
+    document.title = currentTitle;
+  }
+}
+

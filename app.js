@@ -71,7 +71,6 @@ app.get('/invited/:invite_id', auth.showRegister);
 app.post('/register', auth.register);
 
 // chat related routes
-app.get('/chat', auth.checkAuth, chatRoutes.index);
 app.get('/chat/getMessages', auth.checkAuth, chatRoutes.getMessages);
 app.post('/chat/addMessage', auth.checkAuth, chatRoutes.addMessage);
 
@@ -116,4 +115,11 @@ io.sockets.on('connection', function (socket) {
   redis.subscribe('posting-updates');
   redis.subscribe('new-postings');
   redis.subscribe('chat');
+
+  socket.on('disconnect', function () {
+    redis.quit(function () {
+      console.log('redis client disconnect');
+    });
+  });
 });
+

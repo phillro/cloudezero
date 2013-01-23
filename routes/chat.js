@@ -12,10 +12,6 @@ var models = require('../models'),
 
 redis.auth(rtg.auth.split(":")[1]);
 
-exports.index = function (req, res) {
-  res.render('chat', {userId:req.session.id, layout:false});
-};
-
 exports.addMessage = function (req, res) {
   var post = req.body;
 
