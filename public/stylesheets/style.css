@@ -166,12 +166,16 @@ body {
   padding: 5px;
 }
 
-#chat-controls {
+#chat-input {
+  border: none;
+  border-top: 1px solid;
   height: 26px;
-  width: 100%;
+  width: 500px;
   position: fixed;
   bottom: 0;
   margin: 0 auto;
+  font-family: 'Inconsolata', sans-serif;
+  font-size: 16px;
 }
 
 .chat-nickname {

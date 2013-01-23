@@ -27,7 +27,7 @@ exports.addMessage = function (req, res) {
 };
 
 exports.getMessages = function (req, res) {
-  models.chatMessage.where().sort('-createdAt').limit(50).exec(function (err, docs) {
+  models.chatMessage.where().sort('-createdAt').limit(100).exec(function (err, docs) {
     res.send(docs.reverse());
   });
 };
