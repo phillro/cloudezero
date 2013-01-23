@@ -106,6 +106,10 @@ io.sockets.on('connection', function (socket) {
     socket.emit('updates', {channel:channel, message:message});
   });
 
+  redis.on('error', function(e){
+    console.log(e);
+  });
+
   redis.subscribe('posting-updates');
   redis.subscribe('new-postings');
   redis.subscribe('chat');
