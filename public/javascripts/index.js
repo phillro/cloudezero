@@ -234,7 +234,7 @@ var titleTimer;
 
 function newMessageNotify(nickname) {
   newMessageAlert.play();
-  $('#chat-container').css('background-color', '#5d9529');
+  $('#chat-container').css('background-color', '#aaff4c');
   notifyIsOn = true;
 
   clearInterval(titleTimer);
@@ -250,7 +250,7 @@ function newMessageNotify(nickname) {
 function newMessageAck() {
   if (notifyIsOn) {
     notifyIsOn = false;
-    $('#chat-container').css('background-color', '#3b5e2e');
+    $('#chat-container').css('background-color', '#ffffff');
     clearInterval(titleTimer);
     document.title = currentTitle;
   }
