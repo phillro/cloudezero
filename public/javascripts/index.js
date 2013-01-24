@@ -24,6 +24,7 @@ var newMessageAlert = document.getElementsByTagName("audio")[0];
 var notifyIsOn = false;
 
 var currentTitle = "#external festivus";
+var currentUserNick = '';
 
 // onload handler
 $(document).ready(function () {
@@ -37,6 +38,7 @@ $(document).ready(function () {
   // todo : there's probably a better way to do this, just send it to the page or something
   getCurrentUser(function (user) {
     $('#current_user').html(templatesMap['user']({userId:user._id, userName:user.nickname}));
+    currentUserNick = user.nickname;
   });
 
   // start loading posts
@@ -211,7 +213,7 @@ function rcvMessage(message, isInitial) {
 
   chatContainer.append(newMessage);
   chatContainer.scrollTop(chatContainer[0].scrollHeight);
-  if (!isInitial) {
+  if (!isInitial && message.nickname != currentUserNick) {
     newMessageNotify(message.nickname);
   }
 }
@@ -235,6 +237,7 @@ function newMessageNotify(nickname) {
   $('#chat-container').css('background-color', '#5d9529');
   notifyIsOn = true;
 
+  clearInterval(titleTimer);
   titleTimer = setInterval(function () {
     if (document.title === currentTitle) {
       document.title = nickname + ' said something';
