@@ -1,5 +1,6 @@
 /*
- * methods for main index page... this can defintely be cleaned up
+ * methods for main index page... this should definitely be cleaned up
+ * (maybe switch to closure?)
  *
  * @author brianstarke
  *
@@ -16,15 +17,17 @@ var templatesMap = {};
 var mostRecentPostId = 0;
 var latestPostId = 0;
 
-// this holds the posting ids that have arrived after the initial load
-var newPostings = [];
-
 // are we in 'alert' state?
 var newMessageAlert = document.getElementsByTagName("audio")[0];
 var notifyIsOn = false;
 
 var currentTitle = "#external festivus";
 var currentUserNick = '';
+
+// alertBar and it's handler.  newPostings array holds the posting ids that
+// have arrived after the initial load
+var alertBar = new AlertBar('alert-bar', showNewAlerts);
+var newPostings = [];
 
 // onload handler
 $(document).ready(function () {
@@ -33,7 +36,6 @@ $(document).ready(function () {
     var t = templatesList[i];
     templatesMap[t] = Handlebars.compile($('#' + t + '-template').html());
   }
-
   // fill in current user link in header bar
   // todo : there's probably a better way to do this, just send it to the page or something
   getCurrentUser(function (user) {
@@ -90,19 +92,10 @@ $(document).ready(function () {
 // update the alert bar when new postings come in
 function updateNewPostings(postingId) {
   newPostings.push(postingId);
+  alertBar.increment();
 
-  $('#num-new-postings').text(newPostings.length);
   currentTitle = ('#external festivus (' + newPostings.length + ')');
   document.title = currentTitle;
-  var alertBar = $('#alert-bar');
-
-  if (!alertBar.is(":visible")) {
-    alertBar.show(1000, function () {
-      // don't care.
-    });
-
-    $('#postings-container').css('margin-top', '48px');
-  }
 }
 
 // add a new post to the top of the list
@@ -212,7 +205,7 @@ function rcvMessage(message, isInitial) {
   var chatContainer = $('#chat-container');
 
   chatContainer.append(EmoticonParser.parse(newMessage));
-  chatContainer.scrollTop(chatContainer[0].scrollHeight + 20);
+  chatContainer.scrollTop(chatContainer[0].scrollHeight);
   if (!isInitial && message.nickname != currentUserNick) {
     newMessageNotify(message.nickname);
   }
@@ -252,5 +245,16 @@ function newMessageAck() {
     clearInterval(titleTimer);
     document.title = currentTitle;
   }
+}
+
+function showNewAlerts() {
+  for (var i = 0; i < newPostings.length; i++) {
+    $.get('/posting/getPosting/' + newPostings[i], function (post) {
+      addNewPost(post);
+    });
+  }
+  newPostings = [];
+  currentTitle = '#external festivus';
+  document.title = currentTitle;
 }
 

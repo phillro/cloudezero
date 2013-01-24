@@ -17,6 +17,7 @@
   <script src='/javascripts/jquery.reveal.js' type='text/javascript'></script>
   <script src='/javascripts/handlebars.js' type='text/javascript'></script>
   <script src='/socket.io/socket.io.js'></script>
+  <script src='/javascripts/alertBar.js' type='text/javascript'></script>
   <script src='/javascripts/emoticonParser.js' type='text/javascript'></script>
 
   <!-- templates -->
@@ -93,11 +94,7 @@
     </ul>
   </div>
 </div>
-<div id="alert-bar" style="display:none;">
-  <div id='alert-bar-alert'>
-    <span id="num-new-postings"></span> new postings...
-  </div>
-</div>
+<div id="alert-bar" style="display: none"></div>
 
 <!-- body -->
 <div id="postings-container"></div>
