@@ -209,6 +209,8 @@ function rcvMessage(message, isInitial) {
     message:message.message
   });
 
+  EmoticonParser.interpret(newMessage);
+
   var chatContainer = $('#chat-container');
 
   chatContainer.append(newMessage);
