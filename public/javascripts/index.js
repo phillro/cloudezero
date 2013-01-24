@@ -230,7 +230,7 @@ function addMessage(inputBox, event) {
 var titleTimer;
 
 function newMessageNotify(nickname) {
-  newMessageAlert.play();
+  //newMessageAlert.play();
   notifyIsOn = true;
 
   clearInterval(titleTimer);
