@@ -145,7 +145,7 @@ body {
   border-width: 1px;
   border-style: solid;
   height: 400px;
-  width: 500px;
+  width: 100%;
   position: fixed;
   bottom: 0;
   right: 0;
@@ -159,7 +159,7 @@ body {
   background-color: #ffffff;
   color: #000000;
   height: 366px;
-  width: 490px;
+  width: 100%;
   position: fixed;
   opacity: 0.8;
   margin: 0 auto;
@@ -171,7 +171,7 @@ body {
   border: none;
   border-top: 1px solid;
   height: 26px;
-  width: 500px;
+  width: 100%;
   position: fixed;
   bottom: 0;
   margin: 0 auto;
