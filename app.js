@@ -99,27 +99,22 @@ io.configure(function () {
   io.set("polling duration", 10);
 });
 
-io.sockets.on('connection', function (socket) {
-  // create client for pub/sub (1 per user)
-  var redis = require("redis").createClient(redisPort, redisHost);
-  redis.auth(redisAuth[1]);
+// create client for pub/sub (1 per user)
+var redis = require("redis").createClient(redisPort, redisHost);
+redis.auth(redisAuth[1]);
 
+redis.subscribe('posting-updates');
+redis.subscribe('new-postings');
+redis.subscribe('chat');
+
+redis.on('error', function (e) {
+  console.log(e);
+});
+
+// set up sockets
+io.sockets.on('connection', function (socket) {
   redis.on('message', function (channel, message) {
     socket.emit('updates', {channel:channel, message:message});
-  });
-
-  redis.on('error', function (e) {
-    console.log(e);
-  });
-
-  redis.subscribe('posting-updates');
-  redis.subscribe('new-postings');
-  redis.subscribe('chat');
-
-  socket.on('disconnect', function () {
-    redis.quit(function () {
-      console.log('redis client disconnect');
-    });
   });
 });
 
