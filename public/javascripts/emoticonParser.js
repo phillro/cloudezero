@@ -21,7 +21,7 @@ var EmoticonParser = {
     y:'yes.gif'
   },
 
-  interpret:function (text) {
+  parse:function (text) {
     while (this.getEmoticonTag(text)) {
       var a = this.getEmoticonTag(text);
 

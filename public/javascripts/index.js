@@ -209,11 +209,9 @@ function rcvMessage(message, isInitial) {
     message:message.message
   });
 
-  EmoticonParser.interpret(newMessage);
-
   var chatContainer = $('#chat-container');
 
-  chatContainer.append(newMessage);
+  chatContainer.append( EmoticonParser.parse(newMessage));
   chatContainer.scrollTop(chatContainer[0].scrollHeight);
   if (!isInitial && message.nickname != currentUserNick) {
     newMessageNotify(message.nickname);
