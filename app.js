@@ -34,10 +34,6 @@ app.configure(configureExpress);
 
 function configureExpress() {
   app.use(express.favicon(__dirname + '/public/images/favicon.ico'));
-  app.set('redisHost', redisHost);
-  app.set('redisPort', redisPort);
-  app.set('redisDb', redisAuth[0]);
-  app.set('redisPass', redisAuth[1]);
   app.use(express.cookieParser());
   app.use(express.session({
     secret:'bgockbgockbgock',
@@ -120,8 +116,6 @@ io.sockets.on('connection', function (socket) {
   });
 
   socket.on('user_connect', function (nickname) {
-    console.log(nickname + ' connected');
-
     // there is a delay on picking up disconnects, so wipe this
     // out in case someone just hit refresh
     if (currentUsers[nickname]) {

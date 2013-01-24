@@ -72,7 +72,12 @@ $(document).ready(function () {
   });
 
   socket.on('current_users', function (data) {
-    $('#chat-users').html(data);
+    var users = 'online : bronstein';
+    for (var i in data) {
+      users += ',' + data[i];
+    }
+
+    $('#chat-users').html(users);
   });
 
   // initialize submit modal
