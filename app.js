@@ -89,17 +89,7 @@ var server = http.createServer(app).listen(app.get('port'), function () {
   console.log("cloudezero running on port " + app.get('port'));
 });
 
-// attach sockets
-io = require('socket.io').listen(server);
-
-// start updates sockets
-io.configure(function () {
-  io.set('log level', 1);
-  io.set("transports", ["xhr-polling"]);
-  io.set("polling duration", 10);
-});
-
-// create client for pub/sub (1 per user)
+// create client for pub/sub
 var redis = require("redis").createClient(redisPort, redisHost);
 redis.auth(redisAuth[1]);
 
@@ -111,10 +101,40 @@ redis.on('error', function (e) {
   console.log(e);
 });
 
+// attach sockets
+io = require('socket.io').listen(server);
+
+// start updates sockets
+io.configure(function () {
+  io.set('log level', 1);
+  io.set("transports", ["xhr-polling"]);
+  io.set("polling duration", 10);
+});
+
+var currentUsers = {};
+
 // set up sockets
 io.sockets.on('connection', function (socket) {
   redis.on('message', function (channel, message) {
     socket.emit('updates', {channel:channel, message:message});
+  });
+
+  socket.on('user_connect', function (nickname) {
+    console.log(nickname + ' connected');
+
+    // there is a delay on picking up disconnects, so wipe this
+    // out in case someone just hit refresh
+    if (currentUsers[nickname]) {
+      currentUsers[nickname].disconnect();
+    }
+    socket.nickname = nickname;
+    currentUsers[nickname] = socket;
+    io.sockets.emit('current_users', Object.keys(currentUsers));
+  });
+
+  socket.on('disconnect', function () {
+    delete currentUsers[socket.nickname];
+    io.sockets.emit('current_users', Object.keys(currentUsers));
   });
 });
 

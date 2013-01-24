@@ -6,5 +6,7 @@
  */
 
 exports.index = function (req, res) {
-  res.render('index', {userId:req.session.id, layout:false});
+  res.render('index', {userId:req.session.id,
+    userNickname:req.session.user_nickname,
+    layout:false});
 };

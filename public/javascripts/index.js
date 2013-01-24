@@ -22,7 +22,6 @@ var newMessageAlert = document.getElementsByTagName("audio")[0];
 var notifyIsOn = false;
 
 var currentTitle = "#external festivus";
-var currentUserNick = '';
 
 // alertBar and it's handler.  newPostings array holds the posting ids that
 // have arrived after the initial load
@@ -40,7 +39,6 @@ $(document).ready(function () {
   // todo : there's probably a better way to do this, just send it to the page or something
   getCurrentUser(function (user) {
     $('#current_user').html(templatesMap['user']({userId:user._id, userName:user.nickname}));
-    currentUserNick = user.nickname;
   });
 
   // start loading posts
@@ -52,6 +50,8 @@ $(document).ready(function () {
 
   // open socket for live updates
   var socket = io.connect();
+
+  socket.emit('user_connect', USER_NICKNAME);
 
   // set up socket handlers
   socket.on('updates', function (data) {
@@ -69,6 +69,10 @@ $(document).ready(function () {
     if (data.channel === 'chat') {
       rcvMessage(JSON.parse(data.message), false);
     }
+  });
+
+  socket.on('current_users', function (data) {
+    $('#chat-users').html(data);
   });
 
   // initialize submit modal
@@ -206,7 +210,7 @@ function rcvMessage(message, isInitial) {
 
   chatContainer.append(EmoticonParser.parse(newMessage));
   chatContainer.scrollTop(chatContainer[0].scrollHeight);
-  if (!isInitial && message.nickname != currentUserNick) {
+  if (!isInitial && message.nickname != USER_NICKNAME) {
     newMessageNotify(message.nickname);
   }
 }

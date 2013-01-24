@@ -155,6 +155,19 @@ body {
   box-shadow: -5px 5px 20px #88885F;
 }
 
+#chat-users {
+  background-color: #3b5e2e;
+  color: #cdff6b;
+  height: 14px;
+  width: 100%;
+  position: fixed;
+  bottom: 252px;
+  opacity: 0.8;
+  margin: 0 auto;
+  overflow: scroll;
+  padding: 5px;
+}
+
 #chat-container {
   background-color: #ffffff;
   color: #000000;
