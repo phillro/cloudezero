@@ -211,8 +211,8 @@ function rcvMessage(message, isInitial) {
 
   var chatContainer = $('#chat-container');
 
-  chatContainer.append( EmoticonParser.parse(newMessage));
-  chatContainer.scrollTop(chatContainer[0].scrollHeight);
+  chatContainer.append(EmoticonParser.parse(newMessage));
+  chatContainer.scrollTop(chatContainer[0].scrollHeight + 20);
   if (!isInitial && message.nickname != currentUserNick) {
     newMessageNotify(message.nickname);
   }
@@ -234,7 +234,6 @@ var titleTimer;
 
 function newMessageNotify(nickname) {
   newMessageAlert.play();
-  $('#chat-container').css('background-color', '#aaff4c');
   notifyIsOn = true;
 
   clearInterval(titleTimer);
@@ -250,7 +249,6 @@ function newMessageNotify(nickname) {
 function newMessageAck() {
   if (notifyIsOn) {
     notifyIsOn = false;
-    $('#chat-container').css('background-color', '#ffffff');
     clearInterval(titleTimer);
     document.title = currentTitle;
   }
