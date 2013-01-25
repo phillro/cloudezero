@@ -268,3 +268,7 @@ function showNewAlerts() {
   document.title = currentTitle;
 }
 
+function closeChat() {
+  $('#chat-wrap').hide(2000);
+}
+

@@ -106,7 +106,13 @@
 <div id="postings-container"></div>
 
 <div id="chat-wrap">
-  <div id='chat-users'></div>
+  <div id='chat-menubar'>
+    <span id="chat-users"></span>
+
+    <div id='chat-menubar-controls'>
+      <a href='#' onclick='return closeChat();'>close</a>
+    </div>
+  </div>
   <div id='chat-container'></div>
   <div id='chat-controls'>
     <input id="chat-input" onkeypress="return addMessage(this, event);">
