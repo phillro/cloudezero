@@ -156,9 +156,12 @@ body {
 }
 
 #chat-users {
+  border-top-color: #060606;
+  border-top-width: 1px;
+  border-top-style: solid;
   background-color: #3b5e2e;
-  color: #cdff6b;
-  height: 14px;
+  color: #ffffff;
+  height: 16px;
   width: 100%;
   position: fixed;
   bottom: 252px;

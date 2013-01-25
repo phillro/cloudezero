@@ -208,7 +208,8 @@ function getUser(userId, callback) {
 function rcvMessage(message, isInitial) {
   var newMessage = templatesMap['chat-message']({
     nickname:message.nickname,
-    message:message.message
+    message:message.message,
+    ts:$.format.date(new Date(message.createdAt), 'MM/dd h:mma')
   });
 
   var chatContainer = $('#chat-container');
@@ -241,7 +242,7 @@ function newMessageNotify(nickname) {
   clearInterval(titleTimer);
   titleTimer = setInterval(function () {
     if (document.title === currentTitle) {
-      document.title = nickname + ' said something';
+      document.title = nickname + ' said stuff';
     } else {
       document.title = currentTitle;
     }

@@ -21,7 +21,7 @@ exports.addMessage = function (req, res) {
     newMessage.message = post.message;
     newMessage.save();
 
-    redis.publish('chat', JSON.stringify({nickname:user.nickname, message:post.message}));
+    redis.publish('chat', JSON.stringify(newMessage));
     res.send(200);
   });
 };
