@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>chatbox-test</title>
+  <link rel='stylesheet' href='../stylesheets/chatbox.css'/>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css"/>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400' rel='stylesheet' type='text/css'>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+  <script src="../javascripts/chatbox.js"></script>
+</head>
+<body>
+<div id='main'>
+  <p>Bacon ipsum dolor sit amet bacon venison pastrami ham pig shoulder kielbasa swine andouille t-bone meatball. Ham
+    hock jowl shankle, pig brisket cow tenderloin short ribs swine prosciutto rump filet mignon shank corned beef.
+    Sirloin shoulder t-bone ball tip meatball. Ribeye leberkas swine, biltong chicken sausage rump strip steak
+    tenderloin turkey chuck ground round kielbasa pork tongue. Rump shankle salami t-bone. Fatback turducken t-bone
+    frankfurter cow rump short loin venison. Turducken drumstick ball tip
+    sausage.</p>
+
+  <a href="#" onclick="return hideChat();">hide chat</a>
+</div>
+
+<script>
+  var chatbox = new cloudezero.Chatbox($('#main'));
+  chatbox.updateUsers(['louis', 'starke', 'bronstein']);
+  chatbox.addUserMessage('11:27PM', 'starke', 'test');
+  chatbox.addUserMessage('11:28PM', 'louis', 'longer message');
+  chatbox.addSystemMessage('this is a system message');
+  chatbox.addUserMessage('11:29PM', 'bstarke', 'really much longer message swine prosciutto rump filet mignon shank corned beef');
+
+  function hideChat() {
+    chatbox.hideChat();
+  }
+</script>
+</body>
+</html>
