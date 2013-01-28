@@ -7,6 +7,7 @@
 
 var models = require('../models'),
     conf = require('../etc/config.js'),
+    sanitize = require('validator').sanitize,
     rtg = require('url').parse(conf.redis.url),
     redis = require('redis').createClient(rtg.port, rtg.hostname);
 
@@ -18,7 +19,7 @@ exports.addMessage = function (req, res) {
   models.user.findById(req.session.user_id, function (err, user) {
     var newMessage = new models.chatMessage;
     newMessage.nickname = user.nickname;
-    newMessage.message = post.message;
+    newMessage.message = sanitize(post.message).entityEncode();
     newMessage.save();
 
     redis.publish('chat', JSON.stringify(newMessage));
