@@ -14,11 +14,11 @@
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   position: absolute;
-  bottom: 10px;
-  right: 10px;
-  width: 500px;
+  bottom: -340px;
+  right: 0px;
+  width: 400px;
   height: 308px;
-  z-index: 10000000;
+  z-index: 100;
 }
 
 #chat-header {

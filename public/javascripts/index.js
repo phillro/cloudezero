@@ -80,7 +80,7 @@ $(document).ready(function () {
     });
   });
 
-  chatbox = new cloudezero.Chatbox($('#main'), function (message) {
+  chatbox = new cloudezero.Chatbox($('#header-wrap'), function (message) {
     $.post('/chat/addMessage', {message:message});
   });
 
