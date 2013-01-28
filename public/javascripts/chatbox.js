@@ -7,12 +7,14 @@ cloudezero.Chatbox = function (parentDiv, messageCallback) {
   this.chatHeader = $("<div id='chat-header' class='chat-bar'></div>");
   this.chatHeader.append('online: ');
   this.usersOnline = $("<span id='chat-users-online'></span>");
+  this.chatCloseButton = $("<i id='chat-close-button' class='icon-remove-sign'></i>");
   this.chatContent = $("<div id='chat-content'></div>");
   this.chatInput = $("<textarea id='chat-input'>");
 
   this.chatContainer.appendTo(this.parentDiv);
   this.chatHeader.appendTo(this.chatContainer);
   this.usersOnline.appendTo(this.chatHeader);
+  this.chatCloseButton.appendTo(this.chatHeader);
   this.chatContent.appendTo(this.chatContainer);
   this.chatInput.appendTo(this.chatContainer);
   this.chatInput.keypress(function (event) {
@@ -22,6 +24,10 @@ cloudezero.Chatbox = function (parentDiv, messageCallback) {
       this.value = '';
       messageCallback(message);
     }
+  });
+
+  this.chatCloseButton.click(function () {
+    $('#chat-container').hide(1000);
   });
 
   this.chatContainer.draggable();

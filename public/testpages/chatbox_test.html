@@ -3,12 +3,28 @@
 <head>
   <title>chatbox-test</title>
   <link rel='stylesheet' href='../stylesheets/chatbox.css'/>
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css"/>
+  <link rel="stylesheet" href="../stylesheets/font-awesome.min.css">
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400' rel='stylesheet' type='text/css'>
 
   <style>
     body {
       font-family: 'Open Sans', sans-serif;
+    }
+
+    #header-wrap {
+      background-color: #4a3c5e;
+      color: #ffffff;
+      height: 29px;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      margin: 0 auto;
+      z-index: 100000;
+
+      padding: 0;
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
+      border-bottom-color: black;
     }
   </style>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
@@ -16,6 +32,7 @@
   <script src="../javascripts/chatbox.js"></script>
 </head>
 <body>
+<div id="header-wrap"></div>
 <div id='main'>
   <a href="#" onclick="chatbox.hideChat();">hide chat</a>
   <a href="#" onclick="chatbox.showChat();">show chat</a>
@@ -71,7 +88,7 @@
 </div>
 
 <script>
-  var chatbox = new cloudezero.Chatbox($('#main'), function (message) {
+  var chatbox = new cloudezero.Chatbox($('#header-wrap'), function (message) {
     alert(message);
   });
   chatbox.updateUsers(['louis', 'henry', 'richard']);

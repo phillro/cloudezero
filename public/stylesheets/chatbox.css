@@ -2,12 +2,10 @@
   background-color: #4a3c5e;
   color: #E2D6F7;
   height: 18px;
-  opacity: 0.9;
 }
 
 #chat-container {
   background-color: #ffffff;
-  opacity: 0.9;
   border-radius: 3px;
   box-shadow: -5px 3px 25px #4a3c5e;
   float: right;
@@ -15,7 +13,7 @@
   font-size: 14px;
   position: absolute;
   bottom: -340px;
-  right: 0px;
+  right: 5px;
   width: 400px;
   height: 308px;
   z-index: 100;
@@ -32,7 +30,6 @@
   background-color: #ffffff;
   height: 219px;
   overflow: scroll;
-  opacity: 0.9;
   padding: 5px;
   padding-bottom: 18px;
 }
@@ -44,7 +41,6 @@
   height: 30px;
   overflow: hidden;
   padding-left: 5px;
-  margin-right: auto;
   width: 90%;
   margin-left: 5px;
   margin-right: 25px;
@@ -66,4 +62,15 @@
 .chat-message-sysmessage {
   color: #778899;
   font-style: italic;
+}
+
+#chat-close-button {
+  color: #ffffff;
+  float: right;
+  padding-top: 2px;
+  padding-right: 10px;
+}
+
+#chat-close-button:hover {
+  color: #E2D6F7;
 }
