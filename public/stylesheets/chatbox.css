@@ -8,7 +8,6 @@
 #chat-container {
   background-color: #ffffff;
   opacity: 0.9;
-  border: 1px solid #E2D6F7;
   border-radius: 3px;
   box-shadow: -5px 3px 25px #4a3c5e;
   float: right;
@@ -23,7 +22,7 @@
 }
 
 #chat-header {
-  border-bottom: 1px solid #E2D6F7;
+  border-bottom: 1px solid #060606;
   height: 18px;
   overflow: hidden;
   padding: 5px;
