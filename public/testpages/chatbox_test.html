@@ -5,6 +5,12 @@
   <link rel='stylesheet' href='../stylesheets/chatbox.css'/>
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css"/>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400' rel='stylesheet' type='text/css'>
+
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+    }
+  </style>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
   <script src="../javascripts/chatbox.js"></script>
@@ -18,16 +24,48 @@
     frankfurter cow rump short loin venison. Turducken drumstick ball tip
     sausage.</p>
 
-  <a href="#" onclick="return hideChat();">hide chat</a>
+  <p>Drumstick tongue chicken, t-bone tenderloin pork chop pork belly tail leberkas doner beef bresaola. Fatback pork
+    chop chuck swine biltong leberkas venison. Meatball pastrami leberkas filet mignon beef ribs. Hamburger shoulder
+    pork loin meatball, sirloin shank jowl corned beef cow bacon chuck. Tri-tip fatback strip steak shankle, pig short
+    loin meatloaf. Short ribs flank swine ribeye shank jowl shoulder tail. Meatloaf boudin pork chop shoulder short
+    loin, turkey venison shankle biltong ham sausage ribeye cow ball tip salami.</p>
+
+  <p>Corned beef jerky pork, beef ribs jowl ground round capicola meatball tail turducken. Spare ribs chicken cow,
+    shoulder jowl doner ground round. Tongue meatball jowl chicken turducken pig pastrami, ham pork belly chuck ham hock
+    pork loin. Beef shank shoulder chuck filet mignon. Pork shoulder venison andouille pork chop pork belly pastrami
+    drumstick rump ham hock t-bone kielbasa. Tri-tip short ribs frankfurter ball tip beef ribs cow boudin shankle
+    meatball ground round doner ribeye.</p>
+
+  <p>Jerky beef ribs andouille, capicola shank frankfurter rump biltong strip steak sausage corned beef ribeye pork
+    belly. Swine pastrami ham hock hamburger shank strip steak turkey prosciutto chuck doner meatloaf pork loin venison
+    pork belly ground round. Fatback pork belly drumstick pork loin shoulder ham strip steak turkey venison. Ground
+    round biltong venison, short ribs beef ham brisket ball tip rump swine turkey jerky tenderloin drumstick. Filet
+    mignon tenderloin strip steak ground round bresaola, beef ribs jowl short ribs tongue brisket pork ham hock flank
+    sirloin. Pastrami bresaola jerky swine. Sausage salami beef, shoulder short ribs pork tri-tip prosciutto tail short
+    loin filet mignon.</p>
+
+  <p>Meatball pork belly brisket, short ribs corned beef biltong frankfurter short loin beef meatloaf ham hock rump
+    capicola hamburger shankle. T-bone kielbasa tri-tip swine ham, spare ribs fatback doner boudin pork. Meatloaf corned
+    beef pastrami fatback spare ribs shankle hamburger. Doner filet mignon sirloin frankfurter ball tip fatback.</p>
+
+  <p>Short loin rump chicken tongue beef ribs hamburger short ribs turducken pork. Cow ground round brisket turkey
+    frankfurter short loin boudin leberkas meatball shoulder tri-tip ham pancetta chuck bresaola. Spare ribs pork loin
+    rump turducken tongue shoulder, brisket tri-tip drumstick cow hamburger. Venison shankle short loin, ham hock beef
+    ribs tri-tip cow fatback drumstick pork chop hamburger. Ham hock pork loin short loin short ribs rump. Jerky
+    meatloaf leberkas, venison shoulder pancetta chuck brisket spare ribs beef ribs sirloin. Meatball short ribs
+    hamburger, beef ribs salami pastrami jowl pork doner shankle meatloaf kielbasa.</p>
+
+  <a href="#" onclick="chatbox.hideChat();">hide chat</a>
+  <a href="#" onclick="chatbox.showChat();">show chat</a>
 </div>
 
 <script>
   var chatbox = new cloudezero.Chatbox($('#main'));
-  chatbox.updateUsers(['louis', 'starke', 'bronstein']);
-  chatbox.addUserMessage('11:27PM', 'starke', 'test');
-  chatbox.addUserMessage('11:28PM', 'louis', 'longer message');
+  chatbox.updateUsers(['louis', 'henry', 'richard']);
+  chatbox.addUserMessage('11:27PM', 'louis', 'beef ribs hamburger');
+  chatbox.addUserMessage('11:28PM', 'henry', 'Ham hock pork loin short loin');
   chatbox.addSystemMessage('this is a system message');
-  chatbox.addUserMessage('11:29PM', 'bstarke', 'really much longer message swine prosciutto rump filet mignon shank corned beef');
+  chatbox.addUserMessage('11:29PM', 'richard', 'swine prosciutto rump filet mignon shank corned beef brisket spare ribs beef ribs');
 
   function hideChat() {
     chatbox.hideChat();
