@@ -219,7 +219,6 @@ function receiveChatMessage(message, isInitial) {
 var titleTimer;
 
 function newMessageNotify(nickname) {
-  //newMessageAlert.play();
   notifyIsOn = true;
 
   clearInterval(titleTimer);
