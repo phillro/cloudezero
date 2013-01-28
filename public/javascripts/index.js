@@ -9,7 +9,7 @@
  */
 
 // Handlebars templates
-var templatesList = ['posting', 'user', 'user-modal', 'chat-message'];
+var templatesList = ['posting', 'user', 'user-modal'];
 var templatesMap = {};
 
 // keep track of these so we can place posts before and after
@@ -18,7 +18,6 @@ var mostRecentPostId = 0;
 var latestPostId = 0;
 
 // are we in 'alert' state?
-var newMessageAlert = document.getElementsByTagName("audio")[0];
 var notifyIsOn = false;
 
 var currentTitle = "#external festivus";
@@ -27,6 +26,9 @@ var currentTitle = "#external festivus";
 // have arrived after the initial load
 var alertBar = new AlertBar('alert-bar', showNewAlerts);
 var newPostings = [];
+
+// wire up chatbox
+var chatbox;
 
 // onload handler
 $(document).ready(function () {
@@ -67,17 +69,8 @@ $(document).ready(function () {
 
     // new chat message
     if (data.channel === 'chat') {
-      rcvMessage(JSON.parse(data.message), false);
+      receiveChatMessage(JSON.parse(data.message), false);
     }
-  });
-
-  socket.on('current_users', function (data) {
-    var users = 'online : bronstein';
-    for (var i in data) {
-      users += ',' + data[i];
-    }
-
-    $('#chat-users').html(users);
   });
 
   // initialize submit modal
@@ -87,16 +80,25 @@ $(document).ready(function () {
     });
   });
 
-  $.get('/chat/getMessages', function (docs) {
-    for (var i = 0; i < docs.length; i++) {
-      rcvMessage(docs[i], true);
-    }
+  chatbox = new cloudezero.Chatbox($('#main'), function (message) {
+    $.post('/chat/addMessage', {message:message});
+  });
+
+  socket.on('current_users', function (data) {
+    chatbox.updateUsers(data);
   });
 
   $('#chat-container').mouseover(function () {
     newMessageAck();
   });
+
+  $.get('/chat/getMessages', function (docs) {
+    for (var i = 0; i < docs.length; i++) {
+      receiveChatMessage(docs[i], true);
+    }
+  });
 });
+
 
 // update the alert bar when new postings come in
 function updateNewPostings(postingId) {
@@ -205,31 +207,12 @@ function getUser(userId, callback) {
   });
 }
 
-function rcvMessage(message, isInitial) {
-  var newMessage = templatesMap['chat-message']({
-    nickname:message.nickname,
-    message:message.message,
-    ts:$.format.date(new Date(message.createdAt), 'MM/dd h:mma')
-  });
+function receiveChatMessage(message, isInitial) {
+  var ts = $.format.date(new Date(message.createdAt), 'h:mma')
+  chatbox.addUserMessage(ts, message.nickname, message.message);
 
-  var chatContainer = $('#chat-container');
-
-  chatContainer.append(EmoticonParser.parse(newMessage));
-  chatContainer.scrollTop(chatContainer[0].scrollHeight);
   if (!isInitial && message.nickname != USER_NICKNAME) {
     newMessageNotify(message.nickname);
-  }
-}
-
-// send message
-function addMessage(inputBox, event) {
-  if (event.which == 13) {
-    $.post('/chat/addMessage', {message:inputBox.value}, function () {
-      inputBox.value = '';
-    });
-  }
-  else {
-    return true;
   }
 }
 
@@ -268,7 +251,5 @@ function showNewAlerts() {
   document.title = currentTitle;
 }
 
-function closeChat() {
-  $('#chat-wrap').hide(2000);
-}
+
 

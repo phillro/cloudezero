@@ -3,10 +3,11 @@
   color: #E2D6F7;
   height: 18px;
   opacity: 0.9;
-  padding: 5px;
 }
 
 #chat-container {
+  background-color: #ffffff;
+  opacity: 0.9;
   border: 1px solid #E2D6F7;
   border-radius: 3px;
   box-shadow: -5px 3px 25px #4a3c5e;
@@ -14,10 +15,10 @@
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   position: absolute;
-  top: 10px;
+  bottom: 10px;
   right: 10px;
-  width: 400px;
-  height: 300px;
+  width: 500px;
+  height: 308px;
   z-index: 10000000;
 }
 
@@ -25,6 +26,7 @@
   border-bottom: 1px solid #E2D6F7;
   height: 18px;
   overflow: hidden;
+  padding: 5px;
 }
 
 #chat-content {
@@ -37,9 +39,16 @@
 }
 
 #chat-input {
-  border-top: 1px solid #E2D6F7;
-  height: 18px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  border: 1px solid #000000;
+  height: 30px;
   overflow: hidden;
+  padding-left: 5px;
+  margin-right: auto;
+  width: 90%;
+  margin-left: 5px;
+  margin-right: 25px;
 }
 
 .chat-message-ts {

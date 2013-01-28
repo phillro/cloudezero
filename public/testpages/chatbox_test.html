@@ -71,8 +71,22 @@
 </div>
 
 <script>
-  var chatbox = new cloudezero.Chatbox($('#main'));
+  var chatbox = new cloudezero.Chatbox($('#main'), function (message) {
+    alert(message);
+  });
   chatbox.updateUsers(['louis', 'henry', 'richard']);
+  chatbox.addUserMessage('11:27PM', 'louis', 'beef ribs hamburger');
+  chatbox.addUserMessage('11:28PM', 'henry', 'Ham hock pork loin short loin');
+  chatbox.addSystemMessage('this is a system message');
+  chatbox.addUserMessage('11:29PM', 'richard', 'swine prosciutto rump filet mignon shank corned beef brisket spare ribs beef ribs');
+  chatbox.addUserMessage('11:27PM', 'louis', 'beef ribs hamburger');
+  chatbox.addUserMessage('11:28PM', 'henry', 'Ham hock pork loin short loin');
+  chatbox.addSystemMessage('this is a system message');
+  chatbox.addUserMessage('11:29PM', 'richard', 'swine prosciutto rump filet mignon shank corned beef brisket spare ribs beef ribs');
+  chatbox.addUserMessage('11:27PM', 'louis', 'beef ribs hamburger');
+  chatbox.addUserMessage('11:28PM', 'henry', 'Ham hock pork loin short loin');
+  chatbox.addSystemMessage('this is a system message');
+  chatbox.addUserMessage('11:29PM', 'richard', 'swine prosciutto rump filet mignon shank corned beef brisket spare ribs beef ribs');
   chatbox.addUserMessage('11:27PM', 'louis', 'beef ribs hamburger');
   chatbox.addUserMessage('11:28PM', 'henry', 'Ham hock pork loin short loin');
   chatbox.addSystemMessage('this is a system message');

@@ -1,26 +1,34 @@
 // namespace
 var cloudezero = {};
 
-cloudezero.Chatbox = function (parentDiv) {
+cloudezero.Chatbox = function (parentDiv, messageCallback) {
   this.parentDiv = parentDiv;
   this.chatContainer = $("<div id='chat-container'></div>");
   this.chatHeader = $("<div id='chat-header' class='chat-bar'></div>");
   this.chatHeader.append('online: ');
   this.usersOnline = $("<span id='chat-users-online'></span>");
   this.chatContent = $("<div id='chat-content'></div>");
-  this.chatInput = $("<div id='chat-input' class='chat-bar'></div>");
+  this.chatInput = $("<textarea id='chat-input'>");
 
   this.chatContainer.appendTo(this.parentDiv);
   this.chatHeader.appendTo(this.chatContainer);
   this.usersOnline.appendTo(this.chatHeader);
   this.chatContent.appendTo(this.chatContainer);
   this.chatInput.appendTo(this.chatContainer);
+  this.chatInput.keypress(function (event) {
+    // 13 is enter key
+    if (event.charCode == 13) {
+      var message = this.value;
+      this.value = '';
+      messageCallback(message);
+    }
+  });
 
   this.chatContainer.draggable();
   this.chatContainer.resizable({
     alsoResize:"#chat-content",
     minHeight:150,
-    minWidth:150
+    minWidth:300
   });
 
   this.users = [];
@@ -50,7 +58,7 @@ cloudezero.Chatbox.prototype.addUserMessage = function (ts, nickname, message) {
   msgStr.appendTo(newMessage);
   newMessage.appendTo(this.chatContent);
   $("<br>").appendTo(this.chatContent);
-  newMessage.effect("highlight", {}, 1500);
+  this.afterMessageAdd(newMessage);
 };
 
 cloudezero.Chatbox.prototype.addSystemMessage = function (message) {
@@ -60,7 +68,15 @@ cloudezero.Chatbox.prototype.addSystemMessage = function (message) {
   msgStr.appendTo(newMessage);
   newMessage.appendTo(this.chatContent);
   $("<br>").appendTo(this.chatContent);
-  newMessage.effect("highlight", {}, 1500);
+  this.afterMessageAdd(newMessage);
+};
+
+cloudezero.Chatbox.prototype.afterMessageAdd = function (message) {
+  message.effect("highlight", {color:'#E2D6F7'}, 2500);
+  window.setTimeout(function () {
+    var chatContent = $('#chat-content');
+    chatContent.scrollTop(chatContent[0].scrollHeight);
+  }, 500);
 };
 
 cloudezero.Chatbox.prototype.hideChat = function () {
