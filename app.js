@@ -89,6 +89,7 @@ var server = http.createServer(app).listen(app.get('port'), function () {
 var redis = require("redis").createClient(redisPort, redisHost);
 redis.auth(redisAuth[1]);
 
+redis.subscribe('system-messages');
 redis.subscribe('posting-updates');
 redis.subscribe('new-postings');
 redis.subscribe('chat');
@@ -112,6 +113,7 @@ var currentUsers = {};
 // set up sockets
 io.sockets.on('connection', function (socket) {
   redis.on('message', function (channel, message) {
+    console.log('[' + channel + '] ' + message);
     socket.emit('updates', {channel:channel, message:message});
   });
 

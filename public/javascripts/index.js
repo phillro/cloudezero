@@ -71,6 +71,11 @@ $(document).ready(function () {
     if (data.channel === 'chat') {
       receiveChatMessage(JSON.parse(data.message), false);
     }
+
+    // new system message
+    if (data.channel === 'system-messages') {
+      chatbox.addSystemMessage(data);
+    }
   });
 
   // initialize submit modal
@@ -249,6 +254,3 @@ function showNewAlerts() {
   currentTitle = '#external festivus';
   document.title = currentTitle;
 }
-
-
-

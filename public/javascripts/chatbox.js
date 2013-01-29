@@ -57,7 +57,7 @@ cloudezero.Chatbox.prototype.addUserMessage = function (ts, nickname, message) {
   var newMessage = $("<span id='" + ++this.messageCounter + "'></span>");
   var tsStr = $("<span class='chat-message-ts'>[" + ts + "]</span>");
   var nickStr = $("<span class='chat-message-nick'> " + nickname + "</span>");
-  var msgStr = $("<span class='chat-message-message'> &raquo; " + message + "</span>");
+  var msgStr = $("<span class='chat-message-message'> <i class='icon-double-angle-right'> " + message + "</span>");
 
   tsStr.appendTo(newMessage);
   nickStr.appendTo(newMessage);
@@ -69,7 +69,7 @@ cloudezero.Chatbox.prototype.addUserMessage = function (ts, nickname, message) {
 
 cloudezero.Chatbox.prototype.addSystemMessage = function (message) {
   var newMessage = $("<span id='" + ++this.messageCounter + "'></span>");
-  var msgStr = $("<span class='chat-message-sysmessage'>" + message + "</span>");
+  var msgStr = $("<span class='chat-message-sysmessage'><i class='icon-circle-blank'> " + message + "</span>");
 
   msgStr.appendTo(newMessage);
   newMessage.appendTo(this.chatContent);

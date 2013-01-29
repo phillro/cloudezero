@@ -5,7 +5,7 @@ function AlertBar(divId, callback) {
   this.initialize = function () {
     $('#' + this.divId).hide().html(
         "<div id='alert-bar-alert'>" +
-            "<span id='num-new-postings'></span> new images... click to update" +
+            "<i class='icon-info-sign'></i> <span id='num-new-postings'></span> new images..." +
             "</div>");
     this.numUpdates = 0;
   };

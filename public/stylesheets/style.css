@@ -60,14 +60,14 @@ body {
 }
 
 #alert-bar {
-  background-color: #4a3c5e;
   font-size: 12px;
   color: #E2D6F7;
-  width: 100%;
+  width: 200px;
   height: 19px;
   position: fixed;
-  top: 29px;
-  margin: 0 auto;
+  left: 50px;
+  top: 7px;
+  margin: 0px auto;
   z-index: 100000;
   opacity: 0.8;
   padding: 0;
@@ -75,7 +75,6 @@ body {
 
 #alert-bar-alert {
   float: right;
-  padding-right: 10px;
 }
 
 #postings-container {
