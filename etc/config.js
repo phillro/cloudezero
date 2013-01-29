@@ -17,5 +17,6 @@ module.exports = {
       domain:'cloudezero.net',
       ssl:true},
     from:'J.P. Bronstein <bronsteinomatic@gmail.com>'
-  }
+  },
+  hostname:'www.cloudezero.net'
 };
