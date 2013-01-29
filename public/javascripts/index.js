@@ -74,7 +74,7 @@ $(document).ready(function () {
 
     // new system message
     if (data.channel === 'system-messages') {
-      chatbox.addSystemMessage(data);
+      chatbox.addSystemMessage(data.message);
     }
   });
 
