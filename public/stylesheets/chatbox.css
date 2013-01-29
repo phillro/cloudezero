@@ -34,6 +34,14 @@
   padding-bottom: 18px;
 }
 
+#chat-content a:hover {
+  color: #800080;
+}
+
+#chat-content a {
+  color: #4a3c5e;
+}
+
 #chat-input {
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;

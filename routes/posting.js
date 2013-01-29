@@ -37,7 +37,7 @@ exports.addPosting = function (req, res) {
         user.save();
 
         // shame user in the chat
-        redis.publish('system-messages', user.nickname + ' reposted again');
+        redis.publish('system-messages', user.nickname + ' reposted again. ' + user.reposts + ' so far.');
 
         // send repost fail
         res.send({status:0, message:doc.nickname + ' at ' + doc.createdAt});
@@ -53,7 +53,7 @@ exports.addPosting = function (req, res) {
             user.save();
             console.log(user.nickname + " added " + newPost.imageUrl);
             redis.publish('new-postings', newPost.id);
-            redis.publish('system-messages', user.nickname + ' posted a new image');
+            redis.publish('system-messages', user.nickname + ' posted a new image.');
             res.send({status:1});
           } else {
             res.send({status:-1, message:err.message});
