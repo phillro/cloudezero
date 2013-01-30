@@ -124,7 +124,14 @@ body {
 
 .posting-rating {
   font-size: 18px;
+}
+
+.upvote {
   color: #bcb956;
+}
+
+.downvote {
+  color: #8b0000;
 }
 
 #more-postings {

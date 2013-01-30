@@ -69,10 +69,16 @@ function buildPosting(p) {
   var isDownvoter = (p.downvoters.indexOf(USER_ID) > -1);
   var isNovoter = (!isDownvoter && !isUpvoter);
 
-  var stars = '';
+  var rating = '';
 
-  for (var i = 0; i < p.rating; ++i) {
-    stars += ('<i class="icon-star"></i>');
+  if (p.rating >= 0) {
+    for (var i = 0; i < p.rating; ++i) {
+      rating += ('<i class="icon-star upvote"></i>');
+    }
+  } else {
+    for (var i = 0; i > p.rating; --i) {
+      rating += ('<i class="icon-ban-circle downvote"></i>');
+    }
   }
 
   return Handlebars.templates.posting({
@@ -82,7 +88,7 @@ function buildPosting(p) {
     date:$.format.date(new Date(p.createdAt), 'MM/dd h:mma'),
     imageUrl:p.imageUrl,
     comments:p.comments,
-    rating:new Handlebars.SafeString(stars),
+    rating:new Handlebars.SafeString(rating),
     isUpvoter:isUpvoter,
     isDownvoter:isDownvoter,
     isNovoter:isNovoter
