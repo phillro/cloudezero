@@ -18,6 +18,9 @@ var Posting = new Schema({
       text:String
     }
   ],
+  upvoters:{type:Array},
+  downvoters:{type:Array},
+  rating:{type:Number, default:0},
   createdAt:{type:Date, default:Date.now}
 });
 

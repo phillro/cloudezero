@@ -1,0 +1,64 @@
+<table class='posting-infobar' width=100%>
+  <tr>
+    <td width='200px'>
+      <a href="#" onclick="return showUser('{{posterId}}');">{{posterName}}</a>
+      <i class="icon-double-angle-right"></i> {{date}}
+    </td>
+    <td width='200px'>
+      <div id="rating-buttonset-{{id}}">
+        <input type="radio" id="downvote-{{id}}" name="vote-{{id}}" value="-1" {{#if isDownvoter}}checked{{/if}}/>
+        <label for="downvote-{{id}}">
+          <i class="icon-thumbs-down"></i>
+        </label>
+        <input type="radio" id="novote-{{id}}" name="vote-{{id}}" value="0" {{#if isNovoter}}checked{{/if}}/>
+        <label for="novote-{{id}}">
+          <i class="icon-remove"></i>
+        </label>
+        <input type="radio" id="upvote-{{id}}" name="vote-{{id}}" value="1" {{#if isUpvoter}}checked{{/if}}/>
+        <label for="upvote-{{id}}">
+          <i class="icon-thumbs-up"></i>
+        </label>
+      </div>
+    <td>
+      <button id='comment-button-{{id}}'>
+        <i class="icon-comment-alt"></i>
+      </button>
+    </td>
+    </td>
+  </tr>
+</table>
+<br><br>
+<table class='posting-content-wrapper'>
+  <tr>
+    <td>
+      <div class='posting-image'>
+        <img id='image-{{id}}' src='{{imageUrl}}'>
+      </div>
+    </td>
+    <td valign="top">
+      <span class='posting-rating'>{{rating}}</span>
+      <div class='posting-comments'>
+        <ul class="comments-list">
+          {{#each comments}}
+            <li><em>{{this.nickname}}</em> {{this.text}}</li>
+          {{/each}}
+        </ul>
+        <div id="comment-input-{{id}}" style="display: none;">
+          <input id="comment-input-box-{{id}}" size="50" type='text'
+                 onkeypress="return addComment('{{id}}', this, event);"/>
+        </div>
+      </div>
+    </td>
+  </tr>
+</table>
+<script type="text/javascript">
+  $('#image-{{id}}').click(function () {
+    showImage('{{imageUrl}}');
+  });
+  $('#comment-button-{{id}}').button().click(function () {
+    showCommentInput('{{id}}');
+  });
+  $('#rating-buttonset-{{id}}').buttonset().change(function (event) {
+    postings.registerPostingVote('{{id}}', $('#rating-buttonset-{{id}} input:checked').val());
+  });
+</script>

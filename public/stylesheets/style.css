@@ -86,13 +86,8 @@ body {
   max-width: 800px;
 }
 
-.posting-infobar-wrapper {
-  height: 29px;
-  width: 100%;
-  position: static;
-  margin: 0 auto;
-  padding: 0;
-  font-size: 12px;
+.posting-infobar {
+  font-size: 14px;
 }
 
 .posting-infobar a {
@@ -120,9 +115,14 @@ body {
 
 .posting-comments ul {
   list-style-type: none;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .posting-comments li:before {
   content: "\00BB \0020";
+}
+
+.posting-rating {
+  font-size: 18px;
+  color: #bcb956;
 }

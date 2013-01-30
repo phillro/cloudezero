@@ -73,6 +73,7 @@ app.post('/chat/addMessage', auth.checkAuth, chatRoutes.addMessage);
 // posting related routes
 app.post('/posting/add', auth.checkAuth, postingRoutes.addPosting);
 app.post('/posting/addComment', auth.checkAuth, postingRoutes.addCommentToPosting);
+app.post('/posting/registerVote', auth.checkAuth, postingRoutes.registerVote);
 app.get('/posting/getLatestPostings', auth.checkAuth, postingRoutes.getPostings);
 app.get('/posting/getPosting/:postingId', auth.checkAuth, postingRoutes.getPosting);
 
@@ -113,7 +114,6 @@ var currentUsers = {};
 // set up sockets
 io.sockets.on('connection', function (socket) {
   redis.on('message', function (channel, message) {
-    console.log('[' + channel + '] ' + message);
     socket.emit('updates', {channel:channel, message:message});
   });
 
@@ -133,4 +133,6 @@ io.sockets.on('connection', function (socket) {
     io.sockets.emit('current_users', Object.keys(currentUsers));
   });
 });
+
+
 

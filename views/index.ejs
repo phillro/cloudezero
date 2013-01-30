@@ -14,63 +14,16 @@
   <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
   <script src='/javascripts/jquery.dateFormat-1.0.js' type='text/javascript'></script>
   <script src='/javascripts/jquery.reveal.js' type='text/javascript'></script>
-  <script src='/javascripts/handlebars.js' type='text/javascript'></script>
+  <script src='/javascripts/handlebars.runtime.js' type='text/javascript'></script>
   <script src='/socket.io/socket.io.js'></script>
+  <script src='/javascripts/compiled-templates.js'></script>
   <script src='/javascripts/alertBar.js' type='text/javascript'></script>
   <script src="/javascripts/chatbox.js"></script>
-
-  <!-- templates -->
-  <script id='user-template' type='text/x-handlebars-template'>
-    <a href="#" class="user-link" onclick="return showUser('{{userId}}');">{{userName}}</a>
-  </script>
-
-  <script id="user-modal-template" type='text/x-handlebars-template'>
-    <h1>{{name}} <font color=green>{{inviter}}</font></h1>
-    {{email}}<br/>
-    upvotes : {{upvotes}}<br/>
-    downvotes : {{downvotes}}<br/>
-    posts: {{posts}}<br/>
-    reposts: {{reposts}}<br/>
-  </script>
-
-  <script id='posting-template' type='text/x-handlebars-template'>
-    <div class='posting-infobar-wrapper'>
-      <div class='posting-infobar'>
-        <a href="#" onclick="return showUser('{{posterId}}');">{{posterName}}</a>
-        » {{date}}
-      </div>
-    </div>
-    <div class='posting-content-wrapper'>
-      <table>
-        <tr>
-          <td>
-            <div class='posting-image'>
-              <img src={{imageUrl}} onclick="return showImage('{{imageUrl}}');">
-            </div>
-          </td>
-          <td valign="top">
-            <div class='posting-comments'>
-              <ul class="comments-list">
-                {{#each comments}}
-                <li><em>{{this.nickname}}</em> {{this.text}}</li>
-                {{/each}}
-              </ul>
-              <div id="add-comment-{{id}}" class='posting-comments'>
-                <a href="#" onclick="showCommentInput('{{id}}');"><img src='/images/comment-icon.png'></a>
-              </div>
-              <div id="comment-input-{{id}}" style="display: none;">
-                <input id="comment-input-box-{{id}}" size="50" type='text'
-                       onkeypress="return addComment('{{id}}', this, event);"/>
-              </div>
-            </div>
-          </td>
-        </tr>
-      </table>
-    </div>
-  </script>
+  <script src="/javascripts/postings.js"></script>
 
   <!-- injected values -->
   <script type="text/javascript">
+    USER_ID = '<%= userId %>';
     USER_NICKNAME = '<%= userNickname %>';
   </script>
 
@@ -81,7 +34,7 @@
 <!-- header bar -->
 <div id="header-wrap">
   <div id="header-left">
-    <i class='icon-beer'></i><span id="current_user" class="user-link"></span>
+    <i class='icon-user'></i> <span id="current_user" class="user-link"></span>
   </div>
   <div id="header-right">
     <ul class="navbar">

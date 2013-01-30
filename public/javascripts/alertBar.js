@@ -14,7 +14,9 @@ function AlertBar(divId, callback) {
     if (!$('#' + this.divId).is(":visible")) {
       this.showAlertBar();
     }
-    $('#num-new-postings').html(++this.numUpdates);
+    var numPostings = $('#num-new-postings');
+    numPostings.html(++this.numUpdates);
+    numPostings.effect("highlight", {color:'#E2D6F7'}, 2500);
   };
 
   this.showAlertBar = function () {

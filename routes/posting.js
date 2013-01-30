@@ -93,3 +93,50 @@ exports.getPosting = function (req, res) {
     res.send(doc);
   });
 };
+
+// todo: refactor this, written while tired
+exports.registerVote = function (req, res) {
+  models.posting.findById(req.body.id, function (err, doc) {
+    var userId = req.session.user_id;
+    var vote = req.body.vote;
+
+    resetUserVote(userId, doc);
+
+    try {
+      // downvote
+      if (vote == '-1') {
+        doc.downvoters.push(userId);
+        doc.rating--;
+      }
+
+      // upvote
+      if (vote == '1') {
+        doc.upvoters.push(userId);
+        doc.rating++;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    doc.save();
+    console.log(doc);
+    redis.publish('posting-updates', doc.id);
+    res.send(200);
+  });
+};
+
+function resetUserVote(userId, posting) {
+  var idx = posting.downvoters.indexOf(userId);
+  if (idx > -1) {
+    posting.downvoters.splice(idx, 1);
+    posting.rating++;
+  }
+
+  idx = posting.upvoters.indexOf(userId);
+  if (idx > -1) {
+    posting.upvoters.splice(idx, 1);
+    posting.rating--;
+  }
+
+  return posting;
+}

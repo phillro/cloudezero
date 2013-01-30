@@ -5,7 +5,7 @@ cloudezero.Chatbox = function (parentDiv, messageCallback) {
   this.parentDiv = parentDiv;
   this.chatContainer = $("<div id='chat-container'></div>");
   this.chatHeader = $("<div id='chat-header' class='chat-bar'></div>");
-  this.chatHeader.append('online: ');
+  this.chatHeader.append("<i class='icon-group'></i> ");
   this.usersOnline = $("<span id='chat-users-online'></span>");
   this.chatCloseButton = $("<i id='chat-close-button' class='icon-remove-sign'></i>");
   this.chatContent = $("<div id='chat-content'></div>");
