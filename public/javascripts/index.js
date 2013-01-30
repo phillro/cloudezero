@@ -16,7 +16,6 @@ var notifyIsOn = false;
 // alertBar and it's handler.  newPostings array holds the posting ids that
 // have arrived after the initial load
 var alertBar = new AlertBar('alert-bar', showNewAlerts);
-var newPostings = [];
 
 // wire up postings and chatbox components
 var postings;
@@ -31,13 +30,8 @@ $(document).ready(function () {
   });
 
   postings = new cloudezero.Postings($('#postings-container'));
-
-  // start loading posts
-  $.get('/posting/getLatestPostings', function (docs) {
-    for (var i = 0; i < docs.length; i++) {
-      postings.addNewPosting(docs[i]);
-    }
-  });
+  postings.insertGetMoreDiv();
+  postings.loadMorePostings();
 
   // open socket for live updates
   var socket = io.connect();
@@ -96,10 +90,10 @@ $(document).ready(function () {
 
 // update the alert bar when new postings come in
 function updateNewPostings(postingId) {
-  newPostings.push(postingId);
+  postings.addNewUnseenPosting(postingId);
   alertBar.increment();
 
-  currentTitle = ('#external festivus (' + newPostings.length + ')');
+  currentTitle = ('#external festivus (' + postings.unseenPostings.length + ')');
   document.title = currentTitle;
 }
 
@@ -195,12 +189,7 @@ function newMessageAck() {
 }
 
 function showNewAlerts() {
-  for (var i = 0; i < newPostings.length; i++) {
-    $.get('/posting/getPosting/' + newPostings[i], function (post) {
-      postings.addNewPosting(post);
-    });
-  }
-  newPostings = [];
+  postings.showUnseenPostings();
   currentTitle = '#external festivus';
   document.title = currentTitle;
 }

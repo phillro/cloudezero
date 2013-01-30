@@ -1,5 +1,11 @@
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['morepostings'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  helpers = helpers || Handlebars.helpers; data = data || {};
+  
+
+
+  return "<div id='more-postings'>\n  <i class='icon-circle-arrow-down'></i>\n  &nbsp;show more postings&nbsp;\n  <i class='icon-circle-arrow-down'></i>\n</div>\n<script type='text/javascript'>\n  $('#more-postings').click(function () {\n    postings.loadMorePostings();\n  });\n</script>";});
 templates['posting'] = template(function (Handlebars,depth0,helpers,partials,data) {
   helpers = helpers || Handlebars.helpers; data = data || {};
   var buffer = "", stack1, stack2, foundHelper, functionType="function", escapeExpression=this.escapeExpression, self=this;

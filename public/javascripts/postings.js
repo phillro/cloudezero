@@ -1,19 +1,28 @@
 cloudezero.Postings = function (parentElem) {
   this.parentElem = parentElem;
 
-  this.firstPostId = 0;
-  this.lastPostId = 0;
+  this.numPostingsPerRequest = 10;
+  this.earliestPostTs = Date.now();
+  this.topPostId = 0;
+  this.unseenPostings = [];
 
-  this.addNewPosting = function (p) {
-    if (this.lastPostId === 0) {
-      this.lastPostId = p._id;
+  this.addNewPosting = function (p, isOnTop) {
+    if (this.topPostId == 0) {
+      this.topPostId = p._id;
     }
 
     var post = "<div id='" + p._id + "' class='posting'>" + buildPosting(p) + "</div>";
 
-    // prepend the post to the current stack
-    this.firstPostId === 0 ? this.parentElem.html(post) : $('#' + this.firstPostId).before(post);
-    this.firstPostId = p._id;
+    if (isOnTop) {
+      // append the post to the current stack
+      $('#' + this.topPostId).before(post);
+      this.topPostId = p._id;
+    } else {
+      // prepend the post to the current stack
+      $('#more-postings').before(post);
+      this.earliestPostTs = p.createdAt;
+    }
+    $('#' + p._id).effect("highlight", {color:'#E2D6F7'}, 2500);
   };
 
   this.updatePosting = function (id) {
@@ -22,8 +31,35 @@ cloudezero.Postings = function (parentElem) {
     });
   };
 
+  this.showUnseenPostings = function () {
+    for (var i in this.unseenPostings) {
+      $.get('/posting/getPosting/' + this.unseenPostings[i], function (p) {
+        postings.addNewPosting(p, true);
+      });
+    }
+    this.unseenPostings = [];
+  };
+
+  this.addNewUnseenPosting = function (id) {
+    this.unseenPostings.push(id);
+  };
+
   this.registerPostingVote = function (id, vote) {
     $.post('/posting/registerVote', {id:id, vote:vote});
+  };
+
+  this.insertGetMoreDiv = function () {
+    this.parentElem.append(Handlebars.templates.morepostings());
+  };
+
+  this.loadMorePostings = function () {
+    var url = '/posting/getPostings/' + this.numPostingsPerRequest + '/' + this.earliestPostTs;
+
+    $.get(url, function (posts) {
+      for (var i in posts) {
+        postings.addNewPosting(posts[i], false);
+      }
+    });
   };
 };
 
@@ -35,7 +71,7 @@ function buildPosting(p) {
 
   var stars = '';
 
-  for (var i=0; i < p.rating; ++i) {
+  for (var i = 0; i < p.rating; ++i) {
     stars += ('<i class="icon-star"></i>');
   }
 

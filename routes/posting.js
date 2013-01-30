@@ -83,9 +83,13 @@ exports.addCommentToPosting = function (req, res) {
 };
 
 exports.getPostings = function (req, res) {
-  models.posting.where().sort('-createdAt').limit(50).exec(function (err, docs) {
-    res.send(docs.reverse());
-  });
+  models.posting.where('createdAt')
+      .lt(req.params.earlierThan)
+      .sort('-createdAt')
+      .limit(req.params.numPostings)
+      .exec(function (err, docs) {
+        res.send(docs);
+      });
 };
 
 exports.getPosting = function (req, res) {
@@ -133,6 +137,7 @@ function resetUserVote(userId, posting) {
   }
 
   idx = posting.upvoters.indexOf(userId);
+  console.log(idx);
   if (idx > -1) {
     posting.upvoters.splice(idx, 1);
     posting.rating--;

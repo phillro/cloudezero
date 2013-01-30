@@ -126,3 +126,17 @@ body {
   font-size: 18px;
   color: #bcb956;
 }
+
+#more-postings {
+  background-color: #4a3c5e;
+  color: #ffffff;
+  text-align: center;
+  height: 40px;
+  width: 100%;
+  margin: 0 auto;
+  opacity: 0.8;
+  padding: 0;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: black;
+}

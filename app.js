@@ -74,7 +74,7 @@ app.post('/chat/addMessage', auth.checkAuth, chatRoutes.addMessage);
 app.post('/posting/add', auth.checkAuth, postingRoutes.addPosting);
 app.post('/posting/addComment', auth.checkAuth, postingRoutes.addCommentToPosting);
 app.post('/posting/registerVote', auth.checkAuth, postingRoutes.registerVote);
-app.get('/posting/getLatestPostings', auth.checkAuth, postingRoutes.getPostings);
+app.get('/posting/getPostings/:numPostings/:earlierThan', auth.checkAuth, postingRoutes.getPostings);
 app.get('/posting/getPosting/:postingId', auth.checkAuth, postingRoutes.getPosting);
 
 // user-related routes
