@@ -51,12 +51,12 @@ body {
   display: inline;
 }
 
-.navbar li {
+#navbar-show-menu {
   display: inline;
 }
 
-.navbar li:before {
-  content: "\00BB \0020";
+#navbar-show-menu:hover {
+  color: #E2D6F7;
 }
 
 #alert-bar {

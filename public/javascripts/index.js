@@ -20,9 +20,12 @@ var alertBar = new AlertBar('alert-bar', showNewAlerts);
 // wire up postings and chatbox components
 var postings;
 var chatbox;
+var navbar;
 
 // onload handler
 $(document).ready(function () {
+  navbar = new cloudezero.Navbar($('#navbar'));
+
   // fill in current user link in header bar
   // todo : there's probably a better way to do this, just send it to the page or something
   getCurrentUser(function (user) {

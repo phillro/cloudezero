@@ -1,0 +1,23 @@
+<div id="navbar-show-menu">
+  <span id="navbar-show-menu-icon"><i class="icon-caret-right"></i></span>
+  show
+</div> |
+<a href="https://github.com/cloudezero/cloudezero/issues" target="_blank"><i class="icon-github"></i> issues</a> |
+<a href="https://chrome.google.com/webstore/detail/cloudezero-extension/dnknklfndofeafbhgpkelkmddgnccmec"
+   target="_blank"><i class="icon-download"></i> extension</a> |
+<a href="#" data-reveal-id="inviteModal"><i class="icon-sitemap"></i> invite</a> |
+<a href="/logout"><i class="icon-signout"></i>logout</a>
+
+<script type="text/javascript">
+  var navbarShowMenuShown = false;
+
+  $('#navbar-show-menu').click(function () {
+    if (navbarShowMenuShown) {
+      $('#navbar-show-menu-icon').html('<i class="icon-caret-right">');
+      navbarShowMenuShown = false;
+    } else {
+      $('#navbar-show-menu-icon').html('<i class="icon-caret-down">');
+      navbarShowMenuShown = true;
+    }
+  });
+</script>

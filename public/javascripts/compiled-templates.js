@@ -6,6 +6,12 @@ templates['morepostings'] = template(function (Handlebars,depth0,helpers,partial
 
 
   return "<div id='more-postings'>\n  <i class='icon-circle-arrow-down'></i>\n  &nbsp;show more postings&nbsp;\n  <i class='icon-circle-arrow-down'></i>\n</div>\n<script type='text/javascript'>\n  $('#more-postings').click(function () {\n    postings.loadMorePostings();\n  });\n</script>";});
+templates['navbar'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  helpers = helpers || Handlebars.helpers; data = data || {};
+  
+
+
+  return "<div id=\"navbar-show-menu\">\n  <span id=\"navbar-show-menu-icon\"><i class=\"icon-caret-right\"></i></span>\n  show\n</div> |\n<a href=\"https://github.com/cloudezero/cloudezero/issues\" target=\"_blank\"><i class=\"icon-github\"></i> issues</a> |\n<a href=\"https://chrome.google.com/webstore/detail/cloudezero-extension/dnknklfndofeafbhgpkelkmddgnccmec\"\n   target=\"_blank\"><i class=\"icon-download\"></i> extension</a> |\n<a href=\"#\" data-reveal-id=\"inviteModal\"><i class=\"icon-sitemap\"></i> invite</a> |\n<a href=\"/logout\"><i class=\"icon-signout\"></i>logout</a>\n\n<script type=\"text/javascript\">\n  var navbarShowMenuShown = false;\n\n  $('#navbar-show-menu').click(function () {\n    if (navbarShowMenuShown) {\n      $('#navbar-show-menu-icon').html('<i class=\"icon-caret-right\">');\n      navbarShowMenuShown = false;\n    } else {\n      $('#navbar-show-menu-icon').html('<i class=\"icon-caret-down\">');\n      navbarShowMenuShown = true;\n    }\n  });\n</script>\n";});
 templates['posting'] = template(function (Handlebars,depth0,helpers,partials,data) {
   helpers = helpers || Handlebars.helpers; data = data || {};
   var buffer = "", stack1, stack2, foundHelper, functionType="function", escapeExpression=this.escapeExpression, self=this;
