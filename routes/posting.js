@@ -123,7 +123,6 @@ exports.registerVote = function (req, res) {
     }
 
     doc.save();
-    console.log(doc);
     redis.publish('posting-updates', doc.id);
     res.send(200);
   });
@@ -137,7 +136,6 @@ function resetUserVote(userId, posting) {
   }
 
   idx = posting.upvoters.indexOf(userId);
-  console.log(idx);
   if (idx > -1) {
     posting.upvoters.splice(idx, 1);
     posting.rating--;
