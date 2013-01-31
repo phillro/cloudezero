@@ -169,6 +169,12 @@ cloudezero.CommandParser = {
       }
 
       return emoticonsStr;
+    },
+    boobs:function () {
+      window.location = "http://www.youporn.com/search/?query=boobs";
+    },
+    steak:function () {
+      window.location = "http://www.exponent.com/files/Uploads/Images/epidemiology/meat.jpg";
     }
   },
 
