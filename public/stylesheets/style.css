@@ -1,186 +1,171 @@
-/*
- * @author brianstarke (brian.starke@gmail.com)
- *
- * Free to use under the MIT license.
- * http://www.opensource.org/licenses/mit-license.php
- */
-
 body {
-  margin: 0px;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
+  margin: 0
 }
 
 #background {
+  background: #ffcfe9 url(../images/bg.jpg) no-repeat fixed center;
   height: 100%;
-  width: 100%;
+  left: 0;
+  opacity: 0.2;
   position: fixed;
   top: 0;
-  left: 0;
-  background: #ffcfe9 url('../images/bg.jpg') no-repeat fixed center;
-  opacity: 0.2;
-  z-index: -1;
+  width: 100%;
+  z-index: -1
 }
 
 #header-wrap a {
-  color: #ffffff;
-  text-decoration: none;
-}
-
-#header-wrap a:hover {
-  color: #E2D6F7;
+  color: #fff;
+  text-decoration: none
 }
 
 #header-wrap {
   background-color: #4a3c5e;
-  color: #ffffff;
-  height: 29px;
-  width: 100%;
-  position: fixed;
-  top: 0;
-  margin: 0 auto;
-  z-index: 100000;
-  opacity: 0.8;
-  padding: 0;
+  border-bottom-color: #000;
   border-bottom-style: solid;
   border-bottom-width: 1px;
-  border-bottom-color: black;
+  color: #fff;
+  height: 29px;
+  margin: 0 auto;
+  opacity: 0.8;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100000
 }
 
 #footer-wrap {
-  height: 0px;
-  width: 100%;
-  position: fixed;
   bottom: 0;
+  height: 0;
   margin: 0 auto;
+  position: fixed;
+  width: 100%
 }
 
 #menu-dropdown {
-  background-color: #ffffff;
+  background-color: #fff;
+  border-bottom: solid 1px #000;
+  border-left: solid 1px #000;
+  border-right: solid 1px #000;
   color: #060606;
-  height: 60px;
-  width: 156px;
-  position: fixed;
-  top: 30px;
-  right: 314px;
   margin: 0 auto;
-  z-index: 1000000;
   opacity: 0.8;
   padding: 5px;
+  position: fixed;
+  right: 314px;
+  top: 30px;
+  width: 156px;
+  z-index: 1000000
+}
+
+#header-wrap .menu-item {
+  color: #000
+}
+
+#header-wrap .menu-item:hover {
+  color: #ff1493;
+  cursor: pointer
 }
 
 #header-left {
   float: left;
-  padding: 5px;
+  padding: 5px
 }
 
 #header-right {
+  display: inline;
   float: right;
-  padding: 5px 10px 5px 0;
-  display: inline;
-}
-
-.navbar {
-  display: inline;
-}
-
-#navbar-view-menu {
-  display: inline;
+  padding: 5px 10px 5px 0
 }
 
 #navbar-view-menu:hover {
   color: #E2D6F7;
+  cursor: pointer
 }
 
 #navbar-view-current-view {
-  color: #ffabe4;
+  color: #ffabe4
 }
 
 #alert-bar {
-  font-size: 12px;
   color: #E2D6F7;
-  width: 200px;
+  font-size: 12px;
   height: 19px;
-  position: fixed;
   left: 50px;
-  top: 7px;
-  margin: 0px auto;
-  z-index: 100000;
+  margin: 0 auto;
   opacity: 0.8;
   padding: 0;
+  position: fixed;
+  top: 7px;
+  width: 200px;
+  z-index: 100000
 }
 
 #alert-bar-alert {
-  float: right;
+  float: right
 }
 
 #postings-container {
-  margin-top: 29px;
+  margin-top: 29px
 }
 
 .posting img {
   max-height: 800px;
-  max-width: 800px;
-}
-
-.posting-infobar {
-  font-size: 14px;
-}
-
-.posting-infobar a {
-  color: #000000;
-  text-decoration: none;
-}
-
-.posting-infobar a:hover {
-  color: #E2D6F7;
+  max-width: 800px
 }
 
 .posting-infobar {
   float: left;
-  padding: 5px;
-}
-
-.posting-comments a {
-  color: #000000;
-  text-decoration: none;
-}
-
-.posting-comments a:hover {
-  color: #E2D6F7;
+  font-size: 14px;
+  padding: 5px
 }
 
 .posting-comments ul {
-  list-style-type: none;
   font-size: 14px;
+  list-style-type: none
 }
 
 .posting-comments li:before {
-  content: "\00BB \0020";
+  content: "\00BB \0020"
 }
 
 .posting-rating {
-  font-size: 18px;
+  font-size: 18px
 }
 
 .upvote {
-  color: #bcb956;
+  color: #bcb956
 }
 
 .downvote {
-  color: #8b0000;
+  color: #8b0000
 }
 
 #more-postings {
   background-color: #4a3c5e;
-  color: #ffffff;
-  text-align: center;
+  border-bottom-color: #000;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  color: #fff;
   height: 100px;
-  width: 100%;
   margin: 0 auto;
   opacity: 0.8;
   padding: 0;
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  border-bottom-color: black;
+  text-align: center;
+  width: 100%
+}
+
+#header-wrap a:hover, .posting-infobar a:hover, .posting-comments a:hover {
+  color: #E2D6F7
+}
+
+.navbar, #navbar-view-menu {
+  display: inline
+}
+
+.posting-infobar a, .posting-comments a {
+  color: #000;
+  text-decoration: none
 }

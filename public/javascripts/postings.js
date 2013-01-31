@@ -1,6 +1,7 @@
 cloudezero.Postings = function (parentElem) {
   this.parentElem = parentElem;
 
+  this.view = 'view-recent';
   this.numPostingsPerRequest = 10;
   this.earliestPostTs = Date.now();
   this.topPostId = 0;
@@ -53,7 +54,19 @@ cloudezero.Postings = function (parentElem) {
   };
 
   this.loadMorePostings = function () {
-    var url = '/posting/getPostings/' + this.numPostingsPerRequest + '/' + this.earliestPostTs;
+    var url = '';
+
+    switch (this.view) {
+      case 'view-recent':
+        url = '/posting/getPostings/' + this.numPostingsPerRequest + '/' + this.earliestPostTs;
+        break;
+      case 'view-best':
+        url = '/posting/getSortedPostings/rating/0';
+        break;
+      case 'view-worst':
+        url = '/posting/getSortedPostings/rating/1';
+        break;
+    }
 
     $.get(url, function (posts) {
       for (var i in posts) {
@@ -61,6 +74,16 @@ cloudezero.Postings = function (parentElem) {
       }
     });
   };
+
+  this.switchView = function (newView) {
+    this.view = newView;
+    this.earliestPostTs = Date.now();
+    this.topPostId = 0;
+    this.unseenPostings = [];
+    this.parentElem.html('');
+    this.insertGetMoreDiv();
+    this.loadMorePostings();
+  }
 };
 
 // static method to build a posting

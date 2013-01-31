@@ -92,6 +92,17 @@ exports.getPostings = function (req, res) {
       });
 };
 
+exports.getSortedPostings = function (req, res) {
+  var dir = req.params.direction === "1" ? '' : '-';
+
+  models.posting.where()
+      .sort(dir + req.params.field)
+      .limit(100)
+      .exec(function (err, docs) {
+        res.send(docs);
+      });
+};
+
 exports.getPosting = function (req, res) {
   models.posting.findById(req.params.postingId, function (err, doc) {
     res.send(doc);

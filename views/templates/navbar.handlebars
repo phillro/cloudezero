@@ -1,3 +1,9 @@
+<div id="menu-dropdown" style="display: none">
+  <span id='view-best' class="menu-item"><i class="icon-star-empty"></i> best</span><br>
+  <span id='view-worst' class="menu-item"><i class="icon-ban-circle"></i> worst</span><br>
+  <span id='view-recent' class="menu-item"><i class="icon-time"></i> most recent</span>
+</div>
+
 <div id="navbar-view-menu">
   <span id="navbar-view-menu-icon"><i class="icon-caret-right"></i></span> viewing :
   <span id="navbar-view-current-view">most recent</span>
@@ -22,5 +28,14 @@
       navbarViewMenuShown = true;
       $('#menu-dropdown').show(500);
     }
+  });
+
+  $('.menu-item').click(function (e) {
+    $('#navbar-view-menu-icon').html('<i class="icon-caret-right">');
+    navbarViewMenuShown = false;
+    $('#menu-dropdown').hide(500);
+    var newView = e.currentTarget.id;
+    navbar.changeView(newView);
+    postings.switchView(newView);
   });
 </script>
