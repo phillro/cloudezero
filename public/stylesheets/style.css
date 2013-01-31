@@ -11,6 +11,17 @@ body {
   font-size: 14px;
 }
 
+#background {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #ffcfe9 url('../images/bg.jpg') no-repeat fixed center;
+  opacity: 0.2;
+  z-index: -1;
+}
+
 #header-wrap a {
   color: #ffffff;
   text-decoration: none;
@@ -83,7 +94,7 @@ body {
   color: #E2D6F7;
 }
 
-#navbar-view-current-view{
+#navbar-view-current-view {
   color: #ffabe4;
 }
 
