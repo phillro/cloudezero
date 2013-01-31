@@ -11,12 +11,12 @@ module.exports = {
   },
   email:{
     server:{
-      user:'bronsteinomatic@gmail.com',
+      user:process.env.EMAIL_USER,
       password:process.env.EMAIL_PASSWORD,
-      host:'smtp.gmail.com',
-      domain:'cloudezero.net',
+      host:process.env.EMAIL_HOST,
+      domain:process.env.EMAIL_DOMAIN,
       ssl:true},
-    from:'J.P. Bronstein <bronsteinomatic@gmail.com>'
+    from:process.env.EMAIL_FROM
   },
-  hostname:'www.cloudezero.net'
+  hostname:process.env.HOSTNAME
 };
