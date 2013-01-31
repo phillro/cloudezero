@@ -20,9 +20,14 @@ cloudezero.Chatbox = function (parentDiv, messageCallback) {
   this.chatInput.keypress(function (event) {
     // 13 is enter key
     if (event.charCode == 13) {
-      var message = this.value;
+      var message = this.value.replace(/(\r\n|\n|\r)/gm, "");
       this.value = '';
-      messageCallback(message);
+      if (cloudezero.CommandParser.isCommand(message)) {
+        var msg = cloudezero.CommandParser.parseCommand(message);
+        chatbox.addCommandMessage(msg);
+      } else {
+        messageCallback(message);
+      }
     }
   });
 
@@ -77,6 +82,16 @@ cloudezero.Chatbox.prototype.addSystemMessage = function (message) {
   this.afterMessageAdd(newMessage);
 };
 
+cloudezero.Chatbox.prototype.addCommandMessage = function (message) {
+  var newMessage = $("<span id='" + ++this.messageCounter + "'></span>");
+  var msgStr = $("<span class='chat-message-sysmessage'><em>" + message + "</em></span>");
+
+  msgStr.appendTo(newMessage);
+  newMessage.appendTo(this.chatContent);
+  $("<br>").appendTo(this.chatContent);
+  this.afterMessageAdd(newMessage);
+};
+
 cloudezero.Chatbox.prototype.afterMessageAdd = function (message) {
   message.effect("highlight", {color:'#E2D6F7'}, 2500);
   window.setTimeout(function () {
@@ -92,7 +107,6 @@ cloudezero.Chatbox.prototype.hideChat = function () {
 cloudezero.Chatbox.prototype.showChat = function () {
   this.chatContainer.show(1000);
 };
-
 
 cloudezero.EmoticonParser = {
   emoticonMap:{
@@ -127,10 +141,48 @@ cloudezero.EmoticonParser = {
     } else {
       return {tag:this.emoticonMap[tag], s:startIdx, e:text.substring(endIdx + 1)};
     }
+  }
+};
+
+cloudezero.CommandParser = {
+  commandsMap:{
+    help:function () {
+      var commandsStr = '';
+      var keys = Object.keys(this);
+
+      for (var i in keys) {
+        commandsStr += "- ";
+        commandsStr += keys[i];
+        commandsStr += "<br>";
+      }
+
+      return 'Available commands :<br>' + commandsStr;
+    },
+    emoticons:function () {
+      var emoticonsStr = '';
+      var keys = Object.keys(cloudezero.EmoticonParser.emoticonMap);
+
+      for (var i in keys) {
+        emoticonsStr += keys[i] + " : ";
+        emoticonsStr += "<img src='/images/emoticons/" + cloudezero.EmoticonParser.emoticonMap[keys[i]] + "'/>";
+        emoticonsStr += "<br>";
+      }
+
+      return emoticonsStr;
+    }
   },
 
-  getAllEmoticons:function () {
-    return this.emoticonMap;
+  isCommand:function (text) {
+    return text.indexOf('/') === 0;
+  },
+
+  parseCommand:function (text) {
+    var command = text.substr(1, text.length);
+    if (this.commandsMap[command]) {
+      return this.commandsMap[command]();
+    } else {
+      return 'unknown command "' + command + '"<br>' + this.commandsMap.help();
+    }
   }
 };
 
