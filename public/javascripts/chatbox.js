@@ -57,7 +57,7 @@ cloudezero.Chatbox.prototype.addUserMessage = function (ts, nickname, message) {
   var newMessage = $("<span id='" + ++this.messageCounter + "'></span>");
   var tsStr = $("<span class='chat-message-ts'>[" + ts + "]</span>");
   var nickStr = $("<span class='chat-message-nick'> " + nickname + "</span>");
-  var msgStr = $("<span class='chat-message-message'> <i class='icon-double-angle-right'> " + linkify(message) + "</span>");
+  var msgStr = $("<span class='chat-message-message'> <i class='icon-double-angle-right'> " + linkify(cloudezero.EmoticonParser.parse(message)) + "</span>");
 
   tsStr.appendTo(newMessage);
   nickStr.appendTo(newMessage);
@@ -91,6 +91,47 @@ cloudezero.Chatbox.prototype.hideChat = function () {
 
 cloudezero.Chatbox.prototype.showChat = function () {
   this.chatContainer.show(1000);
+};
+
+
+cloudezero.EmoticonParser = {
+  emoticonMap:{
+    bear:'bear.gif',
+    beer:'beer.gif',
+    flex:'flex.gif',
+    n:'no.gif',
+    party:'party.gif',
+    penis:'penis.gif',
+    poolparty:'poolparty.gif',
+    rock:'rock.gif',
+    y:'yes.gif'
+  },
+
+  parse:function (text) {
+    while (this.getEmoticonTag(text)) {
+      var a = this.getEmoticonTag(text);
+
+      text = text.substring(0, a.s) + "<img src='/images/emoticons/" + a.tag + "'/>" + a.e;
+    }
+
+    return text;
+  },
+
+  getEmoticonTag:function (text) {
+    var startIdx = text.indexOf('(');
+    var endIdx = text.indexOf(')', startIdx);
+    var tag = text.substring(startIdx + 1, endIdx);
+
+    if (startIdx === -1 || this.emoticonMap[tag] === undefined) {
+      return false;
+    } else {
+      return {tag:this.emoticonMap[tag], s:startIdx, e:text.substring(endIdx + 1)};
+    }
+  },
+
+  getAllEmoticons:function () {
+    return this.emoticonMap;
+  }
 };
 
 function linkify(inputText) {
