@@ -115,7 +115,9 @@ cloudezero.EmoticonParser = {
     flex:'flex.gif',
     n:'no.gif',
     party:'party.gif',
+    pbjt:'pbjt.gif',
     penis:'penis.gif',
+    pickle:'pickle.jpg',
     poolparty:'poolparty.gif',
     rock:'rock.gif',
     y:'yes.gif'
