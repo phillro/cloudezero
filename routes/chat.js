@@ -32,4 +32,3 @@ exports.getMessages = function (req, res) {
     res.send(docs.reverse());
   });
 };
-
