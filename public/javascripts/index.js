@@ -71,7 +71,7 @@ $(document).ready(function () {
     });
   });
 
-  chatbox = new cloudezero.Chatbox($('#header-wrap'), function (message) {
+  chatbox = new cloudezero.Chatbox($('#footer-wrap'), function (message) {
     $.post('/chat/addMessage', {message:message});
   });
 

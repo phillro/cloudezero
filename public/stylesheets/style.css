@@ -36,6 +36,30 @@ body {
   border-bottom-color: black;
 }
 
+#footer-wrap {
+  height: 0px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  margin: 0 auto;
+}
+
+#menu-dropdown {
+  background-color: #ccabff;
+  color: #060606;
+  height: 60px;
+  width: 156px;
+  position: fixed;
+  top: 30px;
+  right: 314px;
+  margin: 0 auto;
+  z-index: 1000000;
+  opacity: 0.8;
+  padding: 5px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
 #header-left {
   float: left;
   padding: 5px;
@@ -51,12 +75,16 @@ body {
   display: inline;
 }
 
-#navbar-show-menu {
+#navbar-view-menu {
   display: inline;
 }
 
-#navbar-show-menu:hover {
+#navbar-view-menu:hover {
   color: #E2D6F7;
+}
+
+#navbar-view-current-view{
+  color: #ffabe4;
 }
 
 #alert-bar {

@@ -1,7 +1,8 @@
-<div id="navbar-show-menu">
-  <span id="navbar-show-menu-icon"><i class="icon-caret-right"></i></span>
-  show
-</div> |
+<div id="navbar-view-menu">
+  <span id="navbar-view-menu-icon"><i class="icon-caret-right"></i></span> viewing :
+  <span id="navbar-view-current-view">most recent</span>
+</div>
+|
 <a href="https://github.com/cloudezero/cloudezero/issues" target="_blank"><i class="icon-github"></i> issues</a> |
 <a href="https://chrome.google.com/webstore/detail/cloudezero-extension/dnknklfndofeafbhgpkelkmddgnccmec"
    target="_blank"><i class="icon-download"></i> extension</a> |
@@ -9,15 +10,17 @@
 <a href="/logout"><i class="icon-signout"></i>logout</a>
 
 <script type="text/javascript">
-  var navbarShowMenuShown = false;
+  var navbarViewMenuShown = false;
 
-  $('#navbar-show-menu').click(function () {
-    if (navbarShowMenuShown) {
-      $('#navbar-show-menu-icon').html('<i class="icon-caret-right">');
-      navbarShowMenuShown = false;
+  $('#navbar-view-menu').click(function () {
+    if (navbarViewMenuShown) {
+      $('#navbar-view-menu-icon').html('<i class="icon-caret-right">');
+      navbarViewMenuShown = false;
+      $('#menu-dropdown').hide(500);
     } else {
-      $('#navbar-show-menu-icon').html('<i class="icon-caret-down">');
-      navbarShowMenuShown = true;
+      $('#navbar-view-menu-icon').html('<i class="icon-caret-down">');
+      navbarViewMenuShown = true;
+      $('#menu-dropdown').show(500);
     }
   });
 </script>
