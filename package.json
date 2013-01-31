@@ -1,6 +1,6 @@
 {
   "name":"cloudezero",
-  "version":"0.0.1",
+  "version":"1.0",
   "engines":{
     "node":"0.8.12",
     "npm":"1.1.49"
